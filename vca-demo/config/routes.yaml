@@ -1,0 +1,22 @@
+app_lucky_number:
+    path: /lucky/number
+    controller: App\Controller\LuckyController::number
+app_lucky_string:
+    path: /lucky/string
+    controller: App\Controller\LuckyController::string
+app_lucky_template:
+    path: /lucky/template
+    controller: App\Controller\LuckyController::template
+
+app_blog_list_yml:
+    path: /blog_yml
+    # the controller value has the format 'controller_class::method_name'
+    controller: App\Controller\BlogController::list_yml
+
+app_redirect_doc:
+    path: /legacy/doc
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults:
+        # this value can be an absolute path or an absolute URL
+        path: '/lucky/string'
+        permanent: true

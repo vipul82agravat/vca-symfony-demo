@@ -1,0 +1,30 @@
+{# templates/lucky/number.html.twig #}
+{% extends "base.html.twig" %}
+
+    {% block title %}
+        Random Number
+    {% endblock %}
+
+    {% block stylesheets %}
+    {{ parent() }}
+    {% endblock %}
+
+    {% block body %}
+        {% set route_name = app.current_route %}
+        {% set route_parameters = app.current_route_parameters %}
+        {{ params.name }}
+        <br>
+        {{ params.routeParameters }}
+
+        <br>  configration app
+        <br>
+        {{ app.current_route }}
+        {% for key, val in route_parameters %}
+            <br>
+            {{ val }}
+            <br>
+        {% endfor %}
+    {% endblock %}
+     {% block footer %}
+         <h4>All copyright @2023</h4>
+     {% endblock %}
