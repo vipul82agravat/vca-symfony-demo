@@ -10,6 +10,10 @@
     {% endblock %}
 
     {% block body %}
+        <p>The Google tracking code is: {{ ga_tracking }}</p>
+        <a href="{{ path('homepage') }}">Homepage</a>
+          <a href="{{ url('homepage') }}">Homepage_URL</a>
+        <br>
         {% set route_name = app.current_route %}
         {% set route_parameters = app.current_route_parameters %}
         {{ params.name }}

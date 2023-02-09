@@ -6,6 +6,8 @@
 parameters:
     router.request_context.scheme: 'https'
     asset.request_context.secure: true
+    app.admin_email: 'something@example.com'
+    url_pattern: 'https://symfony.com/?foo=%%s&amp;bar=%%d'
 services:
     # default configuration for services in *this* file
     _defaults:

@@ -120,8 +120,50 @@ class BlogController extends AbstractController
         $allAttributes = $request->attributes->all();
         $arr=['name'=>$routeName,'routeParameters'=>$routeParameters['id']];
         //dd($routeName,$routeParameters,$allAttributes);
+
         return $this->render('request/info.html.twig',['params'=>$arr]);
         // ...
+
+    }
+    #[Route('/blog_request_render_view/{id}', name: 'blog_request_render_view')]
+    public function request_list_render_view(int $id,Request $request): Response
+    {
+        $routeName = $request->attributes->get('_route');
+        $routeParameters = $request->attributes->get('_route_params');
+
+        // use this to get all the available attributes (not only routing ones):
+
+        $allAttributes = $request->attributes->all();
+        $arr=['name'=>$routeName,'routeParameters'=>$routeParameters['id']];
+        //dd($routeName,$routeParameters,$allAttributes);
+
+        //return $this->render('request/info.html.twig',['params'=>$arr]);
+        // ...
+         $contents = $this->renderView('request/info.html.twig',['params'=>$arr]);
+
+        return new Response($contents);
+    }
+     // when using the #[Template()] attribute, you only need to return
+     // an array with the parameters to pass to the template (the attribute
+     // is the one which will create and return the Response object).
+    #[Route('/blog_request_return_view/{id}', name: 'blog_request_return_view')]
+    #[Template('request/info.html.twig')]
+    public function request_list_return_view(int $id,Request $request): Response
+    {
+        $routeName = $request->attributes->get('_route');
+        $routeParameters = $request->attributes->get('_route_params');
+
+        // use this to get all the available attributes (not only routing ones):
+
+        $allAttributes = $request->attributes->all();
+        $arr=['name'=>$routeName,'routeParameters'=>$routeParameters['id']];
+        //dd($routeName,$routeParameters,$allAttributes);
+
+        //return $this->render('request/info.html.twig',['params'=>$arr]);
+        // ...
+        /// $contents = $this->renderView('request/info.html.twig',['params'=>$arr]);
+
+        return $arr;
     }
 
     #[Route('/generate_url', name: 'generate_url_list')]
