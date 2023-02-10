@@ -1,0 +1,23 @@
+{# templates/lucky/number.html.twig #}
+{% extends "base.html.twig" %}
+
+    {% block title %}
+        Random Number
+    {% endblock %}
+
+    {% block stylesheets %}
+    {{ parent() }}
+    {% endblock %}
+
+    {% block body %}
+       Wellcome to second page
+       <br>
+       {% for article in articles %}
+             <br>
+            {{ article}}
+             <br>
+    {% endfor %}
+    {% endblock %}
+     {% block footer %}
+         <h4>All copyright @2023</h4>
+     {% endblock %}

@@ -11,6 +11,7 @@
 
     {% block body %}
 
+
         {{ include('request/include_info.html.twig') }}
 
         <p>The Google tracking code is: {{ ga_tracking }}</p>
@@ -31,6 +32,12 @@
             {{ val }}
             <br>
         {% endfor %}
+
+        <div id="sidebar">
+
+                {{ render(controller(
+                    'App\\Controller\\TemplateController::userArticles')) }}
+            </div>
     {% endblock %}
      {% block footer %}
          <h4>All copyright @2023</h4>

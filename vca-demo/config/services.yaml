@@ -23,5 +23,27 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+
+
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+     # explicitly configure the service
+    App\Service\SiteManager:
+        arguments:
+            $adminEmail: 'manager@example.com'
+    App\Service\MessageGenerator:
+        arguments:
+            # the '@' symbol is important: that's what tells the container
+            # you want to pass the *service* whose id is 'monolog.logger.request',
+            # and not just the *string* 'monolog.logger.request'
+            $logger: '@monolog.logger.request'
+
+    App\Service\InjectMessageGenerator:
+        arguments:
+            # the '@' symbol is important: that's what tells the container
+            # you want to pass the *service* whose id is 'monolog.logger.request',
+            # and not just the *string* 'monolog.logger.request'
+            $logger: '@monolog.logger.request'
+            $generateMessageHash: !closure '@App\Hash\MessageHashGenerator'
