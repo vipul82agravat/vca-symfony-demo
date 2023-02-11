@@ -8,10 +8,12 @@ use App\Service\MessageGenerator;
 class SiteManager
 {
         private $adminEmail;
+        private $auto_adminEmail;
         private $messageGenerator;
-        public function __construct(private UrlGeneratorInterface $router,MessageGenerator $messageGenerator,string $adminEmail)
+        public function __construct(private UrlGeneratorInterface $router,MessageGenerator $messageGenerator,string $adminEmail,$auto_adminEmail)
         {
              $this->adminEmail = $adminEmail;
+              $this->auto_adminEmail =$auto_adminEmail;
              $this->messageGenerator = $messageGenerator;
         }
 
@@ -24,7 +26,7 @@ class SiteManager
             $Message=$this->messageGenerator->getHappyMessage();
 
             $full_signUpPage = $this->router->generate('blog_list', [], UrlGeneratorInterface::ABSOLUTE_URL);
-            $response=['email'=>$this->adminEmail,'url'=>$signUpPage,'msg'=>$Message,'full_url'=>$full_signUpPage];
+            $response=['auto_adminEmail'=>$this->auto_adminEmail,'email'=>$this->adminEmail,'url'=>$signUpPage,'msg'=>$Message,'full_url'=>$full_signUpPage];
             return $response;
 
         }

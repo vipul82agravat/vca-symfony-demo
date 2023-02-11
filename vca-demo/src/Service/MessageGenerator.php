@@ -17,6 +17,10 @@ class MessageGenerator
         echo "<pre>";
 
     }
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
+    }
     // get the rand string form array
     public function getHappyMessage(): string
     {

@@ -6,7 +6,9 @@ use App\Service\MessageGenerator;
 use App\Service\RandomNumberGenerator;
 use App\Service\GenrateUrlService;
 use App\Service\SiteManager;
+use App\Config\UserConfig;
 use App\Service\InjectMessageGenerator;
+use App\Service\FactorySiteManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,11 +47,10 @@ class ServiceDemoController extends AbstractController
         // thanks to the type-hint, the container will instantiate a
         // new RandomNumberGenerator and pass it to you!
         // ...
-
         $url_response = $geturl->getUrl();
         dd($url_response);
     }
-
+    //make changes base on Configurator Service
      #[Route('/get_service_param', name: 'get_service_param')]
     public function getparams(SiteManager $getparams): Response
     {
@@ -69,6 +70,24 @@ class ServiceDemoController extends AbstractController
         // ...
 
         $params_response = $getInjectparams->getInjectMessage();
+        dd($params_response);
+    }
+      #[Route('/get_definition_data', name: 'get_definition_data')]
+    public function getDefinition(UserConfig $getconf): Response
+    {
+        // thanks to the type-hint, the container will instantiate a
+        // new RandomNumberGenerator and pass it to you!
+        // ...
+        $params_response = $getconf->configure();
+        dd($params_response);
+    }
+       #[Route('/get_factory_static_data', name: 'get_factory_static_data')]
+    public function getFactory(FactorySiteManager $getsiteManger): Response
+    {
+        // thanks to the type-hint, the container will instantiate a
+        // new RandomNumberGenerator and pass it to you!
+        // ...
+        $params_response = $getsiteManger->getParams();
         dd($params_response);
     }
 }

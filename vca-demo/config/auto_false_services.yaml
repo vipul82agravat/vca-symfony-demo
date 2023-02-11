@@ -33,15 +33,8 @@ services:
 
      # explicitly configure the service
     App\Service\SiteManager:
-        #configurator: ['@App\Service\FormatterManager', 'configure']
-        configurator: '@App\Service\FormatterManager'
         arguments:
             $adminEmail: 'manager@example.com'
-
-    App\Service\FactorySiteManager:
-        # the first argument is the class and the second argument is the static method
-        factory: ['App\Service\ManagerStaticFactory', 'createSiteManager']
-
     App\Service\MessageGenerator:
         arguments:
             # the '@' symbol is important: that's what tells the container
