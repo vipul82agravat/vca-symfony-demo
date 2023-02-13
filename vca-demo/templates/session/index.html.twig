@@ -1,0 +1,41 @@
+{# templates/lucky/number.html.twig #}
+{% extends "base.html.twig" %}
+
+    {% block title %}
+        Random Number
+    {% endblock %}
+
+    {% block stylesheets %}
+    {{ parent() }}
+    {% endblock %}
+
+    {% block body %}
+
+       {% for message in app.flashes('notice') %}
+            <div class="flash-notice">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {# read and display several types of flash messages #}
+        {% for label, messages in app.flashes(['success', 'warning']) %}
+            {% for message in messages %}
+                <div class="flash-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {# read and display all flash messages #}
+        {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% endfor %}
+
+    {% endblock %}
+     {% block footer %}
+         <h4>All copyright @2023</h4>
+     {% endblock %}
