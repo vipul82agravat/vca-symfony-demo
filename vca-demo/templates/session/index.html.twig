@@ -10,7 +10,8 @@
     {% endblock %}
 
     {% block body %}
-
+    
+        
        {% for message in app.flashes('notice') %}
             <div class="flash-notice">
                 {{ message }}
@@ -37,5 +38,6 @@
 
     {% endblock %}
      {% block footer %}
+     
          <h4>All copyright @2023</h4>
      {% endblock %}

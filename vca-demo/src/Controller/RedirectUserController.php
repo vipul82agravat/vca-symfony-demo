@@ -37,6 +37,12 @@ class RedirectUserController extends AbstractController
         // redirects to the "homepage" route
         return $this->redirectToRoute('homepage');
     }
+    #[Route('/home', name: 'redirect_url_list')]
+    public function index_home(): RedirectResponse
+    {
+        // redirects to the "homepage" route
+        return $this->redirectToRoute('homepage');
+    }
 
     #[Route('/redirect_url/permanent', name: 'redirect_url_permanent')]
     public function redirect_permanent(): RedirectResponse

@@ -7,7 +7,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\SessionService;
-//use App\Session\EncryptedSessionProxy;
 
 // ...
 class SessionController extends AbstractController
@@ -70,13 +69,13 @@ class SessionController extends AbstractController
 //        dd($getCreated,$getLastUsed);
          $this->addFlash(
             'notice',
-            'Your changes were saved!'
+            'Your changes were saved! '
         );
-
+         
          return $this->render('session/index.html.twig');
     }
       #[Route('/encrypt_session', name: 'encrypt_session')]
-    public function encrypt_session(SessionService $sessionproxy): Response
+    public function encrypt_session_data(): Response
     {
 
           ;

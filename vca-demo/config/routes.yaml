@@ -7,6 +7,9 @@ app_lucky_string:
 app_lucky_template:
     path: /lucky/template
     controller: App\Controller\LuckyController::template
+app_home_page:
+    path: /home-page
+    controller: App\Controller\HomeController::index
 
 app_blog_list_yml:
     path: /blog_yml
