@@ -20,5 +20,3 @@ framework:
          pools:
           #  my_cache_pool:
            #     adapter: cache.adapter.redis
-         custom_thing.cache:
-            adapter: cache.app

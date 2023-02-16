@@ -27,4 +27,8 @@ class HomeController extends AbstractController
     {
         dd(7);
     }
+    public function test(): Response
+    {
+        dd("test");
+    }
 }

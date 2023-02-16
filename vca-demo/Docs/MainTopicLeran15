@@ -1,0 +1,8 @@
+
+    1.Entity example and demo
+    2.ControllerResolverInterface
+    3.ArgumentResolverInterface
+    4.composer require symfony/debug  instation
+    5 update composer time also error
+    6.composer require --dev symfony/test-pack
+

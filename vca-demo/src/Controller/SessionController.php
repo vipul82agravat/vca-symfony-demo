@@ -90,4 +90,20 @@ class SessionController extends AbstractController
 
          return $this->render('session/index.html.twig');
     }
+    
+    #[Route('/encrypt_session1', name: 'encrypt_session1')]
+    public function encrypt_session_data1(): Response
+    {
+
+
+//       $getCreated=$session->getMetadataBag()->getCreated();
+//       $getLastUsed=$session->getMetadataBag()->getLastUsed();
+//        dd($getCreated,$getLastUsed);
+         $this->addFlash(
+            'notice',
+            'Your changes were saved!'
+        );
+
+         return $this->render('session/index.html.twig');
+    }
 }
