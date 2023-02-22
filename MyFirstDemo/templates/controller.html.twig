@@ -1,0 +1,60 @@
+{# templates/users/string.html.twig #}
+{% set route_parameters = app.current_route_parameters %}
+
+{% set route_name = app.current_route %}
+{{ route_name}}
+<a href="{{ path('list_user') }}">Homepage</a>
+ <a href="user_index">
+                Back
+            </a>
+<br>
+The  syntax is used to print variables in Twig. Refresh your browser to get your new lucky string!
+
+<p>The Google tracking code is: {{ tracking }}</p>
+
+
+Controller Example
+<br>
+1.
+u
+rl_generatingUrl:
+    path: /generatingUrl
+    controller: App\Controller\UserController::generatingUrl    
+
+<br>
+2.
+ #[Route('/user_route',name:'user_route')]
+    public function user_route(TranslatorInterface $translator)
+    {
+        $contents = $this->renderView('rotue.html.twig', [
+            'category' => '121'
+        ]);
+
+        return new Response($contents);
+    }
+<br>
+ //Generating URLs
+     public function generatingUrl(): Response
+     {
+
+        $list_user = $this->generateUrl('list_user');
+        
+        $list_user_full = $this->generateUrl('list_user', [], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $list_user_full_paams = $this->generateUrl('list_user', ['_locale' => 'nl']);
+        
+        echo '<a href="../../user_index">Back</a>';
+        echo "<br>"; 
+
+        return new Response(
+            '<html><body>Url generate :'.$list_user.'<br>Full Url generate :'.$list_user_full.'<br>Paramter Url generate :'.$list_user_full.'</body></html>'
+        );
+     }
+3.
+/Streaming File Responses
+     #[Route('/file_download')]
+    public function download(): BinaryFileResponse
+    {
+        // send the file contents and force the browser to download it
+        return $this->file('/path/to/some_file.pdf');
+    }

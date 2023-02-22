@@ -1,0 +1,44 @@
+{# templates/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+    {% block header %}
+     
+     {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
+
+
+    {% endblock %}
+    {% block body %}
+       <a href="user_index">
+                Back
+            </a>
+    {% for message in app.flashes('notice') %}
+    <div class="flash-notice">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+   
+        {{category}}
+   
+        <p>The Google tracking code is: {{ tracking }}</p>
+
+        {% for pro in promotions %}
+            <a href="">
+                {{ pro }}
+            </a>
+        {% endfor %}
+
+    {{ dump(promotions) }}
+
+    {{message}}
+
+    {% set message = '<h3>foo</h3>' %}
+
+    {# strings and variables translated via a filter are escaped by default #}
+    {{ message|trans|raw }}
+    {{ '<h3>bar</h3>'|trans|raw }}
+
+    {% endblock %}
+{% block footer %}
+    @2023
+{% endblock %}

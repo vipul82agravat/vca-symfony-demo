@@ -1,0 +1,93 @@
+{# templates/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+    {% block header %}
+     
+     {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
+
+
+    {% endblock %}
+        {% block stylesheets %}
+         
+         {% endblock %}
+
+        {% block javascripts %}
+       
+        
+        {% endblock %}  
+    {% block body %}
+       
+    <div class="container">
+    {{ form_start(form, {'action': path('user_class_custom_form'),'method': 'POST'}) }}
+        <div class="">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name,{'attr': {'class': 'form-control'}}) }}
+
+            <small>{{ form_help(form.name,) }}</small>
+
+            <div class="form-error">
+                {{ form_errors(form.name) }}
+            </div>
+        </div>
+         <div>
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email,{'attr': {'class': 'form-control'}}) }}
+
+            <small>{{ form_help(form.email) }}</small>
+
+            <div class="form-error">
+                {{ form_errors(form.email) }}
+            </div>
+        </div>
+        <div>
+            {{ form_label(form.password) }}
+            {{ form_widget(form.password,{'attr': {'class': 'form-control'}}) }}
+
+            <small>{{ form_help(form.password) }}</small>
+
+            <div class="form-error">
+                {{ form_errors(form.password) }}
+            </div>
+        </div>
+         <div>
+            {{ form_label(form.desciption) }}
+            {{ form_widget(form.desciption,{'attr': {'class': 'form-control'}}) }}
+
+            <small>{{ form_help(form.desciption) }}</small>
+
+            <div class="form-error">
+                {{ form_errors(form.desciption) }}
+            </div>
+        </div>
+        <div>
+            {{ form_label(form.gender) }}
+            {{ form_widget(form.gender,{'attr': {'class': 'form-control'}}) }}
+
+            <small>{{ form_help(form.gender) }}</small>
+
+            <div class="form-error">
+                {{ form_errors(form.gender) }}
+            </div>
+        </div>
+         <div>
+            {{ form_label(form.status) }}
+            {{ form_widget(form.status,{'attr': {'class': 'form-control'}}) }}
+
+            <small>{{ form_help(form.status) }}</small>
+
+            <div class="form-error">
+                {{ form_errors(form.status) }}
+            </div>
+        </div>
+        <div>
+        <br>
+            {{ form_widget(form.save,{'attr': {'class': 'form-control'}}) }}
+
+        </div>
+        {{ form_end(form, {render_rest: false}) }}
+        </div>
+   {% endblock %}  
+
+{% block footer %}
+    <p style="text-align: center;">All Copy right@2023</p>
+{% endblock %}

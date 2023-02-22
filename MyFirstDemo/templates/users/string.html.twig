@@ -1,0 +1,10 @@
+{# templates/users/string.html.twig #}
+{% set route_parameters = app.current_route_parameters %}
+
+{% set route_name = app.current_route %}
+{{ route_name}}
+<a href="{{ path('list_user') }}">Homepage</a>
+<h1>Your lucky string is {{ string }}</h1>
+The {{ string }} syntax is used to print variables in Twig. Refresh your browser to get your new lucky string!
+
+<p>The Google tracking code is: {{ tracking }}</p>

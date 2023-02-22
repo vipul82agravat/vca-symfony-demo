@@ -1,0 +1,9 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    globals:
+        tracking: '1233454'
+when@test:
+    twig:
+        strict_variables: true
+
+    

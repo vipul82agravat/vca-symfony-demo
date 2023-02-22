@@ -1,0 +1,103 @@
+{# templates/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+    {% block header %}
+
+
+     {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
+
+    {% endblock %}
+        {% block stylesheets %}
+         <style>
+            * {
+            box-sizing: border-box;
+            }
+            
+            #myInput {
+            background-image: url('/css/searchicon.png');
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+            }
+            
+            #myTable {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ddd;
+            font-size: 18px;
+            }
+            
+            #myTable th, #myTable td {
+            text-align: left;
+            padding: 12px;
+            }
+            
+            #myTable tr {
+            border-bottom: 1px solid #ddd;
+            }
+            
+            #myTable tr.header, #myTable tr:hover {
+            background-color: #f1f1f1;
+            }
+            </style>
+         {% endblock %}
+
+        {% block javascripts %}
+        <script>
+            function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+                }       
+            }
+            }
+            </script>
+            
+        {% endblock %}  
+    {% block body %}
+       
+    <div class="container">
+    
+    <a href="{{path('user_add_form')}}" class="btn btn-primary">AddUsers</a>
+    <a href="{{path('user_class_custom_form')}}" class="btn btn-primary">AddUsersCustomForm</a>
+    <h2>My Users</h2>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+    
+    <table id="myTable">
+      <tr class="header">
+        <th style="width:60%;">Name</th>
+        <th style="width:40%;">Email</th>
+        <th style="width:40%;">Action</th>
+      </tr>
+        {% for user in users %}
+    
+        <tr>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td><a href="{{ url('get_user_update',{'id': user.id })}}">Edit</a>|<a href="{{ url('get_user_delete',{'id': user.id })}}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+   
+    
+    </div>
+   {% endblock %}  
+
+{% block footer %}
+    <p style="text-align: center;">All Copy right@2023</p>
+{% endblock %}

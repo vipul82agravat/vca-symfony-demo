@@ -1,0 +1,6 @@
+# config/packages/webpack_encore.yaml
+webpack_encore:
+    output_path: '%kernel.project_dir%/public/default_build'
+    builds:
+        firstConfig: '%kernel.project_dir%/public/first_build'
+        secondConfig: '%kernel.project_dir%/public/second_build'

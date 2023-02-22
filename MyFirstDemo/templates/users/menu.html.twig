@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">SymfonyDemo</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ path('user_route')}}">Routing</a></li>
+            <li><a href="{{path('user_controller')}}">Controller</a></li>
+            <li><a href="{{path('user_serivce_argument')}}">Service</a></li>
+            <li><a href="generatingUrl">GenerateUrl</a></li>
+          </ul>
+        </li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 2 <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ path('getSession')}}">Session</a></li>
+            <li><a href="{{path('redirectUrl')}}">RedirectUrl</a></li>
+            <li><a href="{{path('user_cache')}}">Cache</a></li>
+            <li><a href="setMessageRequest">Tiwg</a></li>
+          </ul>
+        </li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">CRUD <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ path('list_user')}}">ShowUser</a></li>
+             <li><a href="{{ path('get_user_custom_sql_query')}}">ShowUser-1</a></li>
+            <li><a href="{{ path('create_user')}}">AddUser</a></li>
+            <li><a href="{{ path('update_user')}}">EditUser</a></li>
+            <li><a href="{{ path('delete_user') }}">DeleteUSer</a></li>
+          
+          </ul>
+        </li>
+        <li><a href="{{ path('get_user_list')}}">Users</a></li>
+        <li><a href="{{ path('setMessageRequest') }}">Tiwg</a></li>
+        
+        <li class="active"><a href="/">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+{% endblock %}

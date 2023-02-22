@@ -1,0 +1,8 @@
+# config/packages/assets.yaml
+framework:
+    assets:
+        packages:
+            first_build:
+                json_manifest_path: '%kernel.project_dir%/public/first_build/manifest.json'
+            second_build:
+                json_manifest_path: '%kernel.project_dir%/public/second_build/manifest.json'
