@@ -17,4 +17,11 @@ class Kernel extends BaseKernel
     // {
     //     return \dirname(__DIR__);
     // }
+    // public function registerBundles()
+    // {
+    //     $bundles = array(
+    //         //...
+    //         new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+    //     );
+    // }
 }

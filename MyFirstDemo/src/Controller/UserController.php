@@ -28,10 +28,20 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Form\Type\UserType;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use App\Event\UsertCreateEvent;
+use App\Event\UserUpdateEvent;
+use App\Event\UserDeleteEvent;
+use App\Event\UserEventSubscriber;
 
 class UserController extends AbstractController
 {
     
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
     #[Route('/user', name: 'app_user')]
     public function index(): JsonResponse
     {
@@ -669,5 +679,40 @@ class UserController extends AbstractController
                 'form' => $form,
             ]);
         }
-
+        /**
+         * @Route("/user_event/new")
+         */
+        public function new(): Response
+        {
+            $event = new UsertCreateEvent();
+            
+            $this->eventDispatcher->addSubscriber(new UserEventSubscriber());
+            $this->eventDispatcher->dispatch($event, UsertCreateEvent::NAME);
+            return new Response('Return your response here.');
+        }
+        /**
+         * @Route("/user_event/update")
+         */
+        public function update(): Response
+        {
+            $event = new UserUpdateEvent();
+            
+            $this->eventDispatcher->addSubscriber(new UserEventSubscriber());
+            $this->eventDispatcher->dispatch($event, UserUpdateEvent::NAME);
+            
+            return new Response('Return your response here.');
+        }
+         /**
+         * @Route("/user_event/delete")
+         */
+        public function delete(): Response
+        {
+            $event = new UserDeleteEvent();
+            
+            $this->eventDispatcher->addSubscriber(new UserEventSubscriber());
+            $this->eventDispatcher->dispatch($event, UserDeleteEvent::NAME);
+            
+            return new Response('Return your response here.');
+        }
+        
 }

@@ -1,8 +1,43 @@
 
     1.Entity example and demo
+
+        Done
+
     2.ControllerResolverInterface
+
     3.ArgumentResolverInterface
-    4.composer require symfony/debug  instation
+
     5 update composer time also error
+        DOne
+
     6.composer require --dev symfony/test-pack
 
+        Done
+
+    7.kernel
+
+    8.autowired
+
+    9.EntityValueResolver
+
+    10.Session
+        => which seesion request->getsession() or requeststack
+
+        Example
+
+     public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+
+        // Accessing the session in the constructor is *NOT* recommended, since
+        // it might not be accessible yet or lead to unwanted side-effects
+        // $this->session = $requestStack->getSession();
+    }
+
+    or
+    public function index(Request $request): Response
+    {
+        $session = $request->getSession();
+
+        // ...
+    }

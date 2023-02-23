@@ -28,6 +28,21 @@ services:
         arguments:
             $logger: '@monolog.logger.request'
             $generateMessageHash: !closure '@App\Hash\MessageHashGenerator' 
-                   
+
+    App\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+    App\EventListener\RequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+            
+    App\Event\UserEventSubscriber:
+        tags:
+            - { name: kernel.event_subscriber, event: user.deleted } 
+            - { name: kernel.event_subscriber, event: user.updated }  
+            - { name: kernel.event_subscriber, event: user.created }       
+
+            
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
