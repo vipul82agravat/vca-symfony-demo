@@ -33,6 +33,16 @@
           
           </ul>
         </li>
+         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Events <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            
+            <li><a href="{{ path('get_user_custom_sql_query')}}">ShowUser-1</a></li>
+            <li><a href="{{ url('user_event_new')}}" target="_blank">AddUser</a></li>
+            <li><a href="{{ path('user_event_update')}}" target="_blank">EditUser</a></li>
+            <li><a href="{{ path('user_event_delete') }}" target="_blank">DeleteUSer</a></li>
+          
+          </ul>
+        </li>
         <li><a href="{{ path('get_user_list')}}">Users</a></li>
         <li><a href="{{ path('setMessageRequest') }}">Tiwg</a></li>
         

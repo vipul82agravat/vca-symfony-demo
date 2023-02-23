@@ -3,6 +3,8 @@
 namespace App\Event;
 
 use App\Event\UsertCreateEvent;
+use App\Event\UserUpdateEvent;
+use App\Event\UserDeleteEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -27,11 +29,13 @@ class UserEventSubscriber implements EventSubscriberInterface
     {
         echo "Creatre action call";
         echo "<br>";
+        echo '<a href="../../user_index">Back</a>';
         // write code to execute on product creation event
     }
     public function onProductUpdation(UserUpdateEvent $event)
     {
         echo "Update action call";
+        echo '<a href="../../user_index">Back</a>';
         echo "<br>";
         // write code to execute on product creation event
     }
@@ -39,6 +43,7 @@ class UserEventSubscriber implements EventSubscriberInterface
     public function onProductDeletion(UserDeleteEvent $event)
     {
         echo "Delete action call";
+        echo '<a href="../../user_index">Back</a>';
         echo "<br>";
         // write code to execute on product creation event
     }

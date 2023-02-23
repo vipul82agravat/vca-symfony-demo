@@ -42,6 +42,19 @@ class UserController extends AbstractController
         $this->eventDispatcher = $eventDispatcher;
     }
 
+        /**
+         * @Route("/")
+         */
+        public function userindex(TranslatorInterface $translator)
+        {
+            $contents = $this->renderView('users/menu.html.twig', [
+                'category' => '121',
+                'promotions' => ['0', '1'],
+            ]);
+    
+            return new Response($contents);
+        }
+
     #[Route('/user', name: 'app_user')]
     public function index(): JsonResponse
     {
@@ -690,9 +703,16 @@ class UserController extends AbstractController
             $this->eventDispatcher->dispatch($event, UsertCreateEvent::NAME);
             return new Response('Return your response here.');
         }
-        /**
-         * @Route("/user_event/update")
-         */
+        #[Route('/user_event_new',name:'user_event_new')]
+        public function user_new(): Response
+        {
+            $event = new UsertCreateEvent();
+            
+            $this->eventDispatcher->addSubscriber(new UserEventSubscriber());
+            $this->eventDispatcher->dispatch($event, UsertCreateEvent::NAME);
+            return new Response('Return your response here.');
+        }
+        #[Route('/user_event_update',name:'user_event_update')]
         public function update(): Response
         {
             $event = new UserUpdateEvent();
@@ -702,9 +722,7 @@ class UserController extends AbstractController
             
             return new Response('Return your response here.');
         }
-         /**
-         * @Route("/user_event/delete")
-         */
+        #[Route('/user_event_delete',name:'user_event_delete')]
         public function delete(): Response
         {
             $event = new UserDeleteEvent();
