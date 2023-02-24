@@ -1,6 +1,8 @@
 {# templates/users/string.html.twig #}
 {% set route_parameters = app.current_route_parameters %}
 
+ {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
 {% set route_name = app.current_route %}
 {{ route_name}}
 <a href="{{ path('list_user') }}">Homepage</a>

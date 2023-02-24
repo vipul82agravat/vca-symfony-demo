@@ -17,7 +17,23 @@ framework:
     #fragments: true
     php_errors:
         log: true
+    
+    http_client:
+        default_options:
+            max_redirects: 7
 
+        scoped_clients:
+            seller_api:
+                base_uri: 'https://seller.com/'
+            
+            buyer_api:
+                base_uri: 'https://buyer.com/'
+                # HTTP Basic authentication
+                auth_basic: 'the-username:the-password'
+                # HTTP Bearer authentication (also called token authentication)
+                auth_bearer: the-bearer-token    
+ 
+            
 when@test:
     framework:
         test: true

@@ -33,6 +33,7 @@ use App\Event\UsertCreateEvent;
 use App\Event\UserUpdateEvent;
 use App\Event\UserDeleteEvent;
 use App\Event\UserEventSubscriber;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class UserController extends AbstractController
 {
@@ -45,15 +46,16 @@ class UserController extends AbstractController
         /**
          * @Route("/")
          */
-        public function userindex(TranslatorInterface $translator)
-        {
+    public function userindex(TranslatorInterface $translator)
+    {
             $contents = $this->renderView('users/menu.html.twig', [
                 'category' => '121',
                 'promotions' => ['0', '1'],
             ]);
     
             return new Response($contents);
-        }
+    }
+
 
     #[Route('/user', name: 'app_user')]
     public function index(): JsonResponse
@@ -64,6 +66,7 @@ class UserController extends AbstractController
         ]);
     }
 
+    // get user information form entity user tables data
     #[Route('/list_user', name: 'list_user')]
     public function listUSer(ManagerRegistry $doctrine) :Response
     {   
@@ -133,6 +136,7 @@ class UserController extends AbstractController
         return new Response('user listing data:');
     }
 
+    // add user is used to add fixed records in users table
     #[Route('/add_user', name: 'create_user')]
     public function createUSer(ManagerRegistry $doctrine) :Response
     {
@@ -171,7 +175,7 @@ class UserController extends AbstractController
         return new Response('Saved new User with id '.$user->getId());
 
     }
-
+    //using add_user_valid save user  with Validatotion usgin 
     #[Route('/add_user_valid', name: 'create_user_valid')]
     public function createUSerValidation(ValidatorInterface $validator): Response
     {
@@ -189,7 +193,7 @@ class UserController extends AbstractController
         }
 
     }
-
+    // editUser method is used to update fixed id or static redords in user table
     #[Route('/edit_user/{id}', name: 'update_user')]
     public function editUser(ManagerRegistry $doctrine,int $id=5) :Response
     {
@@ -213,7 +217,7 @@ class UserController extends AbstractController
         // ]);
 
     }
-
+     // deleteUser method is used to delete fixed id or static redords in user table
     #[Route('/delete_user/{id}', name: 'delete_user')]
     public function deleteUser(ManagerRegistry $doctrine,int $id=1) :Response
     {
@@ -227,14 +231,8 @@ class UserController extends AbstractController
 
         return new Response('Delete User with id '.$id);
     }
-    #[Route('/user_map/{id}')]
-    public function show(#[MapEntity] 
-            User $user): Response {
-        // use the ProduUserct!
-        // ...
-        dd($user);
-    }
 
+   
     //check Fetch Automatically
 
     /**
@@ -255,6 +253,7 @@ class UserController extends AbstractController
         return new Response('user set string '.$slug);
     }
 
+    // number this function usign route.yaml   routing file
     public function number(LoggerInterface $logger): Response
     {
         $number = random_int(0, 100);
@@ -263,7 +262,7 @@ class UserController extends AbstractController
             '<html><body>Lucky number: '.$number.'</body></html>'
         );
     }
-
+    //string call this routing usging rotue.yaml file
     public function string(): Response
     {
         $string ="vipul";
@@ -272,7 +271,7 @@ class UserController extends AbstractController
             'string' => $string,
         ]);
     }
-
+     //search call this routing usging rotue.yaml file
     //https://127.0.0.1:8000/user/en/search.html
     public function search(): Response
     {
@@ -282,7 +281,8 @@ class UserController extends AbstractController
             'string' => $string,
         ]);
     }
-
+    
+    //extraParams call this routing usging rotue.yaml file
     //https://127.0.0.1:8000/user_params/2
     public function extraParams(Request $request,int $page=1): Response
     {
@@ -333,12 +333,14 @@ class UserController extends AbstractController
         // // redirects externally
          //return $this->redirect('http://symfony.com/doc');
      }
+
      //Streaming File Responses
-     #[Route('/file_download')]
-    public function download(): BinaryFileResponse
+    #[Route('/file_download')]
+    public function download($path="/path/to/some_file.pdf"): BinaryFileResponse
     {
         // send the file contents and force the browser to download it
-        return $this->file('/path/to/some_file.pdf');
+//        return $this->file('/path/to/some_file.pdf');
+        return $this->file($path);
     }
 
     //tiwg useing renderView
@@ -348,10 +350,12 @@ class UserController extends AbstractController
         $contents = $this->renderView('users/index.html.twig', [
             'category' => '121',
             'promotions' => ['0', '1'],
+            'message'=>'call'
         ]);
 
         return new Response($contents);
     }
+
     //service paramtes 
     #[Route('/user_service_params',name:'user_service_params')]
     public function userPageService(PageService $pageservice): Response
@@ -389,7 +393,7 @@ class UserController extends AbstractController
              echo '<a href="../../user_index">Back</a>';
              echo "<br>"; 
              return new Response(
-                 '<html><body> Generate Message :'.$message.'</body></html>'
+                 '<html><body> Generate Message My :'.$message.'</body></html>'
              );
             
      }
@@ -439,7 +443,7 @@ class UserController extends AbstractController
         // ...
      }
      //set seesion flush message     
-     #[Route('/setMessageRequest',name:'setMessageRequest')]
+     #[Route('/user_twig',name:'user_twig')]
      public function setMessageRequest(Request $request): Response
      {
         
@@ -455,24 +459,30 @@ class UserController extends AbstractController
         // ...
      }
      // from a controller method
+     // listUserCache cache example
+
      #[Route('/user_cache',name:'user_cache')]
     public function listUserCache(TagAwareCacheInterface $myCachePool) : Response
     {
         // ...
         $value1 = $myCachePool->get('item_1', function (ItemInterface $item) {
 
-            $item->tag('foo');
+            $item->tag('vipul');
 
             return new Response(
-                '<html><body> Cache set successfuly</body></html>'
+                '<html><body> Cache  successfuly</body></html>'
             );
         });
         echo '<a href="../../user_index">Back</a>';
         echo "<br>"; 
+
+        // $this->myCachePool->invalidateTags(['vipul']);
         return new Response(
-            '<html><body> Cache set successfuly</body></html>'
+            '<html><body> Cache  successfuly</body></html>'
         );
     }
+    
+    //userMessageTranslator user_translator example for string 
     #[Route('/user_translator',name:'user_translator')]
     public function userMessageTranslator(TranslatorInterface $translator)
     {
@@ -486,6 +496,7 @@ class UserController extends AbstractController
         // ...
     }
 
+    //user_index used to render the menu list
     #[Route('/user_index',name:'user_index')]
     public function user_index(TranslatorInterface $translator)
     {
@@ -497,6 +508,7 @@ class UserController extends AbstractController
         return new Response($contents);
     }
 
+    //user_route used to render the rotues list
     #[Route('/user_route',name:'user_route')]
     public function user_route(TranslatorInterface $translator)
     {
@@ -507,6 +519,7 @@ class UserController extends AbstractController
         return new Response($contents);
     }
 
+    //user_controller used to render the controller  list
     #[Route('/user_controller',name:'user_controller')]
     public function user_controller(TranslatorInterface $translator)
     {
@@ -517,7 +530,7 @@ class UserController extends AbstractController
         return new Response($contents);
     }
     //form
-
+    //userFrom function is used to load the user form using controller
     #[Route('/user_form',name:'user_form')]
     public function userFrom(TranslatorInterface $translator)
     {
@@ -558,7 +571,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    // User Registration form for add new user details
+    // User Registration form for add new user details with type class
     #[Route('/user_add_form',name:'user_add_form')]
     public function userClassFrom(Request $request,ManagerRegistry $doctrine) : Response
     {
@@ -703,6 +716,8 @@ class UserController extends AbstractController
             $this->eventDispatcher->dispatch($event, UsertCreateEvent::NAME);
             return new Response('Return your response here.');
         }
+
+        //user_new get event when new action call
         #[Route('/user_event_new',name:'user_event_new')]
         public function user_new(): Response
         {
@@ -712,6 +727,7 @@ class UserController extends AbstractController
             $this->eventDispatcher->dispatch($event, UsertCreateEvent::NAME);
             return new Response('Return your response here.');
         }
+         //update get event when update action call
         #[Route('/user_event_update',name:'user_event_update')]
         public function update(): Response
         {
@@ -722,6 +738,8 @@ class UserController extends AbstractController
             
             return new Response('Return your response here.');
         }
+        
+          //delete get event when delete action call
         #[Route('/user_event_delete',name:'user_event_delete')]
         public function delete(): Response
         {
@@ -732,5 +750,69 @@ class UserController extends AbstractController
             
             return new Response('Return your response here.');
         }
+
+        // Http client example and curl call with live url demo 
+        #[Route('/test_http_client',name:'test_http_client')]
+        public function httpClient(HttpClientInterface $client): array
+        {   
+            $response = $client->request('GET', 'https://api.github.com/repos/symfony/symfony-docs');
+
+        // getting the response headers waits until they arrive
+            $contentType = $response->getHeaders()['content-type'][0];
+
+            // trying to get the response content will block the execution until
+            // the full response content is received
+            echo "<br>";
+            echo '<a href="../../user_index">Back</a>';
+            echo "<br>";
+
+            $content = $response->getContent();
+            echo "<br>";
+            var_dump($content);
+            $arr_response=json_decode($content);
+
+            echo $arr_response->homepage;
+            dd($arr_response);
+            if($arr_response->homepage!=""){
+
+                $this->redirect($arr_response->homepage);
+            }
+            return new Response('Return your response here.');
+            //return $content;
+        }
+        
+         // Http client example and curl call with live url demo 
+         #[Route('/scoped_http_seller',name:'scoped_http_seller')]
+         public function scopedHttpSeller(HttpClientInterface $sellerApi): array
+         {      
+            
+             $response = $sellerApi->request('GET', 'https://seller.com');
+ 
+         // getting the response headers waits until they arrive
+             $contentType = $response->getHeaders()['content-type'][0];
+ 
+             // trying to get the response content will block the execution until
+             // the full response content is received
+             echo "<br>";
+             echo '<a href="../../user_index">Back</a>';
+             echo "<br>";
+             dd($sellerApi);
+
+             $content = $response->getContent();
+             echo "<br>";
+             var_dump($content);
+             $arr_response=json_decode($content);
+ 
+             echo $arr_response->homepage;
+             dd($arr_response);
+             if($arr_response->homepage!=""){
+ 
+                 $this->redirect($arr_response->homepage);
+             }
+             return new Response('Return your response here.');
+             //return $content;
+         }
+         
+       
         
 }

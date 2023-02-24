@@ -6,7 +6,7 @@
         <a class="navbar-brand" href="#">SymfonyDemo</a>
       </div>
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
+        <li class="active"><a href="{{ path('user_index')}}">Home</a></li>
         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="{{ path('user_route')}}">Routing</a></li>
@@ -20,7 +20,7 @@
             <li><a href="{{ path('getSession')}}">Session</a></li>
             <li><a href="{{path('redirectUrl')}}">RedirectUrl</a></li>
             <li><a href="{{path('user_cache')}}">Cache</a></li>
-            <li><a href="setMessageRequest">Tiwg</a></li>
+            <li><a href="user_twig">Tiwg</a></li>
           </ul>
         </li>
         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">CRUD <span class="caret"></span></a>
@@ -44,7 +44,10 @@
           </ul>
         </li>
         <li><a href="{{ path('get_user_list')}}">Users</a></li>
-        <li><a href="{{ path('setMessageRequest') }}">Tiwg</a></li>
+        <li><a href="{{ path('user_twig') }}">Tiwg</a></li>
+        {#<li><a href="{{ path('setMessageRequest') }}">Contact</a></li>#}
+        <li><a href="{{ path('test_http_client') }}">HttpClient</a></li>
+        <li><a href="{{ path('scoped_http_seller') }}">HttpClientScoped</a></li>
         
         <li class="active"><a href="/">Logout</a></li>
       </ul>

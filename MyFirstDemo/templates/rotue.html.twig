@@ -1,6 +1,8 @@
 {# templates/users/string.html.twig #}
 {% set route_parameters = app.current_route_parameters %}
 
+ {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
 {% set route_name = app.current_route %}
 {{ route_name}}
  <a href="user_index">
@@ -15,21 +17,76 @@ The  syntax is used to print variables in Twig. Refresh your browser to get your
 
 Rotue Example
 <br>
-1.
-u
-rl_generatingUrl:
-    path: /generatingUrl
-    controller: App\Controller\UserController::generatingUrl    
+1.<br>
+url_generatingUrl:<br>
+    path: /generatingUrl  <br>
+    controller: App\Controller\UserController::generatingUrl     <br>
 
 <br>
 2.
- #[Route('/user_route',name:'user_route')]
-    public function user_route(TranslatorInterface $translator)
-    {
-        $contents = $this->renderView('rotue.html.twig', [
-            'category' => '121'
-        ]);
+ #[Route('/user_route',name:'user_route')] <br>
+    public function user_route(TranslatorInterface $translator) <br>
+    { <br>
+        $contents = $this->renderView('rotue.html.twig', [ <br>
+            'category' => '121' <br>
+        ]); <br>
 
-        return new Response($contents);
+        return new Response($contents); <br>
     }
 <br>
+Matching HTTP Methods
+<br>
+1.<br>
+url_generatingUrl:<br>
+    path: /generatingUrl  <br>
+    controller: App\Controller\UserController::generatingUrl     <br>
+    methods:    GET|HEAD<br>
+<br>
+Route Parameters
+<br>
+ config/routes.yaml
+user_show:<br>
+    path:       /user/{slug}<br>
+    controller: App\Controller\UserController::show<br>
+<br>
+
+  Parameters Validation<br>
+
+  requirements:<br>
+        page: '\d+'  
+        <br>
+       Optional Parameters<br>
+         defaults:<br>
+        page: 1<br>
+    requirements:<br>
+        page: '\d+' <br>
+
+     <br>
+     Special Parameters
+
+     <br>
+     user_search:  <br>
+  path:        /user/{_locale}/search.{_format}  <br>
+  controller:  App\Controller\UserController::search  <br>
+  locale:      en  <br>
+  format:      html  <br>
+  requirements:  <br>
+      _locale: en|fr  <br>
+      _format: html|xml    <br>
+
+      /https://127.0.0.1:8000/user/en/search.html<br>
+
+      <br>
+      Localized Routes
+      <br>
+      user:  <br>   
+    path:  <br>   
+        en: /about-us  <br>   
+        nl: /over-ons  <br>   
+    controller: App\Controller\UserController::about  <br>   
+
+
+    <br>
+    Generating URLs
+    <br> $UserIndex = $this->generateUrl('user_index');
+    <br>
