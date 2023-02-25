@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+{% set a_variable="2" %}
+            
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -12,6 +14,7 @@
             <li><a href="{{ path('user_route')}}">Routing</a></li>
             <li><a href="{{path('user_controller')}}">Controller</a></li>
             <li><a href="{{path('user_serivce_argument')}}">Service</a></li>
+            <li><a href="{{path('user_service_params')}}">ServiceParamterEnv</a></li>
             <li><a href="generatingUrl">GenerateUrl</a></li>
           </ul>
         </li>
@@ -43,11 +46,25 @@
           
           </ul>
         </li>
-        <li><a href="{{ path('get_user_list')}}">Users</a></li>
-        <li><a href="{{ path('user_twig') }}">Tiwg</a></li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Twig <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            
+            <li><a href="{{ path('twig_index') }}">TiwgIndex</a></li>
+            <li><a href="{{ url('twig_render_controller')}}" target="_blank">RenderController</a></li>
+            <li><a href="{{ path('twig_render_url_path')}}" target="_blank">RenderUrl-Path</a></li>
+            <li><a href="{{ path('twig_master_value')}}" target="_blank">Master-Variable</a></li>
+          </ul>
+        </li>
+        
         {#<li><a href="{{ path('setMessageRequest') }}">Contact</a></li>#}
-        <li><a href="{{ path('test_http_client') }}">HttpClient</a></li>
-        <li><a href="{{ path('scoped_http_seller') }}">HttpClientScoped</a></li>
+         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">HttpClient <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+             <li><a href="{{ path('test_http_client') }}">HttpClient</a></li>
+             <li><a href="{{ path('scoped_http_seller') }}">HttpClientScoped</a></li>
+          
+          </ul>
+        </li>
+       <li><a href="{{ path('get_user_list')}}">Users</a></li>
         
         <li class="active"><a href="/">Logout</a></li>
       </ul>

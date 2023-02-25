@@ -5,6 +5,10 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     app.admin_email: 'dev@gmail.com'
+    app.env.type: '%env(APP_ENV)%'
+    app.db.type: '%env(DATABASE_URL)%'
+    songs_directory: '%kernel.project_dir%/songs'
+
 services:
     # default configuration for services in *this* file
     _defaults:

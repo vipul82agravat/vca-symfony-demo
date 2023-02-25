@@ -1,0 +1,32 @@
+{# templates/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+    {% block header %}
+     
+     {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
+        
+    <br>
+    {% endblock %}
+    
+    {% block body %}
+      <a href="user_index">
+                Back
+            </a>
+    {% for message in app.flashes('notice') %}
+    <div class="flash-notice">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <h2>UserList data Example of Render COntroller</h2>
+      
+    <h2>  <p>Email Paramters:{{ adminEmail }}  </p></h2>
+
+    <h2> <p>Env Type: {{ envtype }} </p></h2>
+
+     <h2> <p>DB  Type:{{ dbtype }} </p></h2>
+
+    {% endblock %}
+    
+{% block footer %}
+    <p style="text-align:center;">@2023 </p>
+{% endblock %}

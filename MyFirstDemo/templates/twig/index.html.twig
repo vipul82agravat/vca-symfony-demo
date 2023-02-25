@@ -1,0 +1,72 @@
+{# templates/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+    {% block header %}
+     
+     {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
+        
+    <br>
+    {% endblock %}
+    
+    {% block body %}
+        
+     {% set a_variable="2" %}
+        {{ a_variable }}
+       <a href="user_index">
+                Back
+            </a>
+    {% for message in app.flashes('notice') %}
+    <div class="flash-notice">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    
+        {{category}}
+   
+        <p>The Google tracking code is: {{ tracking }}</p>
+
+        {% for pro in promotions %}
+            <a href="">
+                {{ pro }}
+            </a>
+        {% endfor %}
+
+    {{ dump(promotions) }}
+
+    {{message}}
+
+        {% set message = '<h3>foo</h3>' %}
+
+        {# strings and variables translated via a filter are escaped by default #}
+        {{ message|trans|raw }}
+        {{ '<h3>bar</h3>'|trans|raw }}
+
+        <br>
+        <hr>
+        <h2>Render  twig content Using Path</h2>
+        {{ render(path('get_user_custom_sql_query', {id: 3})) }}
+    
+        <hr>
+        <h2>Render  twig content Using Url</h2>
+        {{ render(url('user_translator')) }}
+        <br><br>
+        <hr>
+    
+        <h2>Render  twig content Using Controller</h2>
+        {{ render(controller(
+            'App\\Controller\\UserController::getUSerCustomSQlQuery', {id: 5}
+        )) }}
+
+        <br><br>
+        <h2>Render  twig content Using Controller User List</h2>
+        {{ render(controller(
+                'App\\Controller\\UserController::listUSer'
+            )) }}
+        <br>
+        <hr>
+        
+    {% endblock %}
+{% block footer %}
+    @2023
+{% endblock %}

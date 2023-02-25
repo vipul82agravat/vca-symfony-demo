@@ -1,0 +1,39 @@
+{# templates/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+    {% block header %}
+     
+     {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
+
+    <br>
+    {% endblock %}
+    
+    {% block body %}
+      <a href="user_index">
+                Back
+            </a>
+    {% for message in app.flashes('notice') %}
+    <div class="flash-notice">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {{ render(url('app_user')) }}<br>
+    <h2>UserList data Example of Render Url and Path Controller</h2>
+        {% for user in users %}
+            <b>{{user['name']}}</b><br>
+            {{ render(path('get_user_info',{'id':user['id']})) }}
+            <br>
+            <hr>
+        {% endfor %}
+    <h2></h2>
+    <hr>
+    <h2>UserList data Example of Render Url  rotues</h2>
+    {{ render(url('get_user_list')) }}<br>
+    <hr>
+   
+
+    
+    {% endblock %}
+{% block footer %}
+    @2023
+{% endblock %}

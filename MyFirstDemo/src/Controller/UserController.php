@@ -361,7 +361,17 @@ class UserController extends AbstractController
     public function userPageService(PageService $pageservice): Response
     {
             $adminEmail = $this->getParameter('app.admin_email');
-            dd($adminEmail);
+            $envtype = $this->getParameter('app.env.type');
+            $dbtype = $this->getParameter('app.db.type');
+
+            $contents = $this->renderView('twig/serivce-paramter.html.twig', [
+                'adminEmail' => $adminEmail,
+                'envtype' =>  $envtype ,
+                'dbtype'=>$dbtype 
+            ]);
+    
+            return new Response($contents);
+           
     }
     // service inject
     #[Route('/user_serivce_message',name:'user_serivce_message')]
@@ -814,5 +824,95 @@ class UserController extends AbstractController
          }
          
        
+         //Twig Example
+        //Render the index page if twig demo
+        #[Route('/twig_index',name:'twig_index')]
+        public function twigIndex(HttpClientInterface $client): Response
+        {   
+            $this->addFlash(
+                'notice',
+                'Your changes were saved!'
+            );
+            return $this->render('twig/index.html.twig', [
+                'category' => '121',
+                'promotions' => ['0', '1'],
+                'message'=>''
+            ]);
+        }
+
+        //render url and path exmple to render tiwg page to other url  and path  data and record
+        #[Route('/twig_render_url_path',name:'twig_render_url_path')]
+        public function twigRenderUrlPath(UserRepository $userRepository): Response
+        {   
+            $users = $userRepository->findAll();
+            
+            if (!$users) {
+                throw $this->createNotFoundException(
+                    'No User found for id '
+                );
+            }
+            
+            $user_name=$users[0]['name'];
+            $this->addFlash(
+                'notice',
+                'Your changes are  saved! '.$user_name
+            );
+            
+            return $this->render('twig/render-url-path.html.twig', ['users'=>$users]);
+        }
+
+        // twigRender render controller exmple to render tiwg page to other controller function data and record
+        #[Route('/twig_render_controller',name:'twig_render_controller')]
+        public function twigRender(UserRepository $userRepository): Response
+        {   
+            $users = $userRepository->findAll();
+            
+            if (!$users) {
+                throw $this->createNotFoundException(
+                    'No User found for id '
+                );
+            }
+            
+            $user_name=$users[0]['name'];
+            $this->addFlash(
+                'notice',
+                'Your changes are  saved! '.$user_name
+            );
+            
+            return $this->render('twig/render-controller.html.twig', ['users'=>$users]);
+        }
+
+        // get user information base on user id to show inside the twig file page any in page
+        #[Route('/get_user_info/{id}',name:'get_user_info')]
+        public function userInfo(ManagerRegistry $doctrine,int $id) :Response
+        {
+                $entityManager = $doctrine->getManager();
+                $user = $entityManager->getRepository(User::class)->find($id);
+               
+                if (!$user) {
+                    throw $this->createNotFoundException(
+                        'No user found for id '.$id
+                    );
+                }
+                $response='<br>';
+                $response.='<b>User Name </b> '.$user->getName();
+                $response.='<br>';
+                $response.='<b>User email</b>  '.$user->getEmail();
+                $response.='<br>';
+                $response.='<b>User Gender</b>  '.$user->getGender();
+                $response.='<br>';
+                $response.='<b>User Desciption</b>  '.$user->getDesciption();
+                $response.='<b><a href="get_user_update/'.$user->getId().'"> VieMore</a></b>  ';
+                return new Response($response);
+            
+    
+        }
+        //twigMasterRender ccehchcl render controller exmple to render tiwg page to other controller function data and record
+        #[Route('/twig_master_value' ,name:'twig_master_value')]
+        public function twigMasterRender(UserRepository $userRepository): Response
+        {   
+            
+            return $this->render('twig/mastervalue.html.twig');
+        }
         
 }
