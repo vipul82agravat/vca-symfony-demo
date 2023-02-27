@@ -14,18 +14,25 @@
             
         {% endblock %}
         {% block stylesheets %}
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-           
+       
+       
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+         {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         {% block javascripts %}
-       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+            {{ encore_entry_script_tags('app') }}
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+       
+        {% endblock %}
         {% block footer %}{% endblock %}
     </body>
 </html>
