@@ -6,6 +6,13 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
+import './style/app.scss';
+
+import $ from 'jquery';
+//global.$ = $;
 // start the Stimulus application
 import './bootstrap';
+
+$( document ).ready(function() {
+    console.log( "ready call!" );
+});

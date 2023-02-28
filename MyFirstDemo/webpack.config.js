@@ -21,7 +21,8 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-
+    .addEntry('app_alert', './assets/app_alert.js')
+    .addStyleEntry('bgcolor', './assets/style/bgcolor.scss')
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
 
@@ -47,9 +48,9 @@ Encore
     .enableVersioning(Encore.isProduction())
 
     // configure Babel
-    // .configureBabel((config) => {
-    //     config.plugins.push('@babel/a-babel-plugin');
-    // })
+    .configureBabel((config) => {
+        config.plugins.push('@babel/a-babel-plugin');
+    })
 
     // enables and configure @babel/preset-env polyfills
     .configureBabelPresetEnv((config) => {
@@ -58,8 +59,12 @@ Encore
     })
 
     // enables Sass/SCSS support
-    //.enableSassLoader()
-
+    .enableSassLoader()
+    .copyFiles({
+        from: './assets/js',
+        to: 'js/[path][name].[hash:8].[ext]'
+    })
+    .enablePostCssLoader()   
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
 

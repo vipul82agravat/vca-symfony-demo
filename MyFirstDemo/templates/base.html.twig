@@ -18,15 +18,13 @@
        
         <link rel="stylesheet" href="css/bootstrap.min.css">
          {{ encore_entry_link_tags('app') }}
+         {{ encore_entry_link_tags('bgcolor') }}
         {% endblock %}
 
         {% block javascripts %}
 
             {{ encore_entry_script_tags('app') }}
-
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        
+             {{ encore_entry_script_tags('app_alert') }}
         {% endblock %}
     </head>
     <body>
