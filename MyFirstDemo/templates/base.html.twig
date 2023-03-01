@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+ {% set a_variable="5" %}
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
@@ -10,26 +11,35 @@
         
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block header %}
-             {% set a_variable="2" %}
-            
+     
+        
         {% endblock %}
+
         {% block stylesheets %}
        
        
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
          {{ encore_entry_link_tags('app') }}
          {{ encore_entry_link_tags('bgcolor') }}
         {% endblock %}
-
         {% block javascripts %}
-
-            {{ encore_entry_script_tags('app') }}
-             {{ encore_entry_script_tags('app_alert') }}
+        
+                 <script src="{{asset('js/jquery.min.js')}}"></script> 
+                 {# <script src="{{asset('js/bootstrap_min.min.js')}}"></script> #}
+                 
+                {{ encore_entry_script_tags('app') }}
+                {# encore_entry_script_tags('bootstrap_min') #}
+                
+                
         {% endblock %}
+
     </head>
     <body>
-        {% block body %}
        
+
+        {% block body %}
+
+            
         {% endblock %}
         {% block footer %}{% endblock %}
     </body>

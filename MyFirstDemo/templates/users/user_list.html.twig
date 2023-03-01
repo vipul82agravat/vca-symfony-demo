@@ -5,26 +5,35 @@
 
      {% set menuitem = 'users/menu.html.twig' %}
      {% include menuitem %}
-
+    
     {% endblock %}
         {% block stylesheets %}
-           {#  <link rel="stylesheet" href="css/dataTable.css">#}
+         
         {% endblock %}
 
         {% block javascripts %}
         
-        {# <script src="js/dataTables.min.js"></script>#}
+         <script src="{{ asset('js/dataTables.min.js') }}"></script>
+    
 
         {% endblock %}  
-    {% block body %}
-       
-    <div class="container">
+        
+      {% block body %}
+      
+      {{ a_variable }}
     
+    <div class="container">
+
+    {% trans  into 'fr_FR' %} symfony.great {% endtrans %}  and  {% trans %} Hello {% endtrans %}  User list
+    <br>
     <a href="{{path('user_add_form')}}" class="btn btn-primary">AddUsers</a>
     <a href="{{path('user_class_custom_form')}}" class="btn btn-primary">AddUsersCustomForm</a>
     <h2>My Users</h2>
+     <img src="{{asset('/images/11.jpeg')}}" alt="Girl" width="100" height="100">
+     <img src="{{asset('/images/10.jpeg')}}" alt="Girl" width="100" height="100" style="margin-left: 82%;">
     <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
     
+   
     <table id="myTable">
       <tr class="header">
         <th style="width:60%;">Name</th>

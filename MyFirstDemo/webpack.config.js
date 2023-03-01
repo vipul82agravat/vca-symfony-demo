@@ -22,6 +22,8 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('app_alert', './assets/app_alert.js')
+    .addEntry('bootstrap_min', './assets/js/bootstrap_min.js')
+    .addEntry('jquery_min', './assets/js/jquery.min.js')
     .addStyleEntry('bgcolor', './assets/style/bgcolor.scss')
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
@@ -48,9 +50,9 @@ Encore
     .enableVersioning(Encore.isProduction())
 
     // configure Babel
-    .configureBabel((config) => {
-        config.plugins.push('@babel/a-babel-plugin');
-    })
+    // .configureBabel((config) => {
+    //     config.plugins.push('@babel/a-babel-plugin');
+    // })
 
     // enables and configure @babel/preset-env polyfills
     .configureBabelPresetEnv((config) => {

@@ -1,0 +1,39 @@
+{# templates/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+    {% block header %}
+
+
+     {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
+    
+    {% endblock %}
+        {% block stylesheets %}
+         
+        {% endblock %}
+
+        {% block javascripts %}
+        
+         <script src="{{ asset('js/dataTables.min.js') }}"></script>
+    
+
+        {% endblock %}  
+        
+      {% block body %}
+      
+      {{ a_variable }}
+    
+    <div class="container">
+
+    {% trans  into 'fr_FR' %} symfony.great {% endtrans %}  and  {% trans %} Hello {% endtrans %}  User list
+    <br> fr_FR lang =>
+    {{ frtrans }}
+      <br>En  lang =>
+    {{ entrans }}
+
+    <br>Hello in default =>
+         {% trans %} Hello {% endtrans %}
+   {% endblock %}  
+
+{% block footer %}
+    <p style="text-align: center;">All Copy right@2023</p>
+{% endblock %}

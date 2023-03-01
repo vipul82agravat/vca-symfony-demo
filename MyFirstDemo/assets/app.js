@@ -7,6 +7,8 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './style/app.scss';
+import './js/bootstrap_min.js';
+//import './js/jquery.min.js';
 
 import $ from 'jquery';
 //global.$ = $;

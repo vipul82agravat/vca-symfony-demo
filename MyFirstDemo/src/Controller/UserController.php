@@ -494,14 +494,28 @@ class UserController extends AbstractController
     
     //userMessageTranslator user_translator example for string 
     #[Route('/user_translator',name:'user_translator')]
-    public function userMessageTranslator(TranslatorInterface $translator)
+    public function userMessageTranslator(TranslatorInterface $translator,Request $request)
     {
+
+        $request->setLocale('fr');
+        $getLocale=$request->getLocale();
+        $frtrans=$translator->trans('Symfony is great', locale: $getLocale);
+        
+        $request->setLocale('en');
+        $getLocale=$request->getLocale();
+        $entrans=$translator->trans('Symfony is great', locale: $getLocale);
         $message = new TranslatableMessage('Symfony is great!');
         
         $translated = $translator->trans('Symfony is great');
         $trans=$translator->trans('symfony.great');
+
+        $contents = $this->renderView('twig/trans.html.twig', [
+            'frtrans' => $frtrans,
+            'entrans' => $entrans
+        ]);
+        return new Response($contents);
         return new Response(
-            '<html><body>Translator.'.$translated.'</body></html>'
+            '<html><body>Translator FR=>'.$translated.' English=>'.$frtrans.'</body></html>'
         );
         // ...
     }
