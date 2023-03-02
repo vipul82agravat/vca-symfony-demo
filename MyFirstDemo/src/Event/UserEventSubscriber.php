@@ -8,9 +8,17 @@ use App\Event\UserDeleteEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Doctrine\ORM\Event\PrePersistEventArgs;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+
 
 class UserEventSubscriber implements EventSubscriberInterface
 {
+    public function __construct()
+    {
+      
+    }
     // Returns an array indexed by event name and value by method name to call
     public static function getSubscribedEvents()
     {
@@ -52,4 +60,5 @@ class UserEventSubscriber implements EventSubscriberInterface
     {
         // write code to execute on in-built Kernel Response event
     }
+    
 }

@@ -40,13 +40,34 @@ services:
     App\EventListener\RequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
-            
+
+    App\EventListener\UserDBListener:
+        tags:
+            - { name: doctrine.event_listener, event: 'postPersist', connection: 'default' }  
+
+    App\Event\UserDBEventSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber, priority: 500, connection: 'default' }            
+
     App\Event\UserEventSubscriber:
         tags:
             - { name: kernel.event_subscriber, event: user.deleted } 
             - { name: kernel.event_subscriber, event: user.updated }  
-            - { name: kernel.event_subscriber, event: user.created }       
-
+            - { name: kernel.event_subscriber, event: user.created }     
             
+   
+
+    App\Command\CreateUserCommand:
+        tags:
+            - { name: 'console.command', command: 'user-command' }
+
+    App\Command\UserParametersCommand:
+        tags:
+            - { name: 'console.command', command: 'user-params-command' }     
+    
+    App\Command\UserNotificationCommand:
+        tags:
+            - { name: 'console.command', command: 'user-notify-command' }     
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

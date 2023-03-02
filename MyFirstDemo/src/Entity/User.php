@@ -5,6 +5,13 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+
+/**
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks  <-- DO NOT FORGET TO ADD THIS
+ */
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
@@ -123,4 +130,10 @@ class User
 
         return $this;
     }
+
+    public function preUpdate(PreUpdateEventArgs $event)
+    {
+        dd(123);
+    }
+        
 }

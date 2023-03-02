@@ -19,6 +19,7 @@ use App\Service\PageService;
 use App\Service\MessageGenerator;
 use App\Service\SiteUpdateManager;
 use App\Service\UserSessionService;
+use App\Service\SendEmailService;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
@@ -621,11 +622,12 @@ class UserController extends AbstractController
              $users = $form->getData();
             
              $entityManager->persist($users);
-
+            
+                
              // actually executes the queries (i.e. the INSERT query)
              $entityManager->flush();
              // ... perform some action, such as saving the task to the database
- 
+            
              return $this->redirectToRoute('get_user_list');
          }
         return $this->render('users/user_form.html.twig', [
@@ -927,6 +929,27 @@ class UserController extends AbstractController
         {   
             
             return $this->render('twig/mastervalue.html.twig');
+        }
+
+        //twigMasterRender ccehchcl render controller exmple to render tiwg page to other controller function data and record
+         #[Route('/sys_email_log' ,name:'sys_email_log')]
+         public function syslog(SendEmailService $service): Response
+         {   
+            $service->storeLog();
+
+            $email="vipul@gmail.com";
+            $subject="Test Mail";
+            $html='<html>
+            <body>
+            <p><br>Hey</br>
+            You User Account is InActive Now</p>
+            <p>Please contact to Admin For Active Account</p>
+            <a href="https://127.0.0.1:8000/">ActiveNow</a>
+                    </body>
+                </html>';
+            $service->MailSend($email,$subject,$html);
+            
+            dd('Log store and email send  done');
         }
         
 }
