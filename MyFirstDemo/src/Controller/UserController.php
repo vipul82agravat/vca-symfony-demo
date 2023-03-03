@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\UsersWork;
 use App\Repository\UserRepository;
+use App\Repository\AddressRepository;
+use App\Repository\UsersWorkRepository;
+use App\Repository\LocationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,6 +39,10 @@ use App\Event\UserUpdateEvent;
 use App\Event\UserDeleteEvent;
 use App\Event\UserEventSubscriber;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class UserController extends AbstractController
 {
@@ -150,15 +158,172 @@ class UserController extends AbstractController
         $user->setDesciption('text');
         $user->setStatus(1);
 
+        
+
+
+
         $entityManager->persist($user);
 
         // actually executes the queries (i.e. the INSERT query)
         $entityManager->flush();
         echo '<a href="../../user_index">Back</a>';
         echo "<br>";  
+       
         return new Response('Saved new User with id '.$user->getId());
     }
 
+     // add user is used to add fixed records in users table
+     #[Route('/add_user_work', name: 'add_user_work')]
+     public function createUSerwork(ManagerRegistry $doctrine) :Response
+     {
+        $entityManager = $doctrine->getManager();
+        
+         $user= new User();
+         $user->setName('vipul_Dev');
+         $user->setEmail('vipul@gmail.com');
+         $user->setGender('Male');
+         $user->setDesciption('text');
+         $user->setStatus(1);
+         
+         //$user = $entityManager->getRepository(User::class)->find(2);
+        
+         $userwork= new UsersWork();
+         $userwork->setTaskname('vipul_Devdfsdf');
+         $userwork->setStartdate('03-03-2023');
+         $userwork->setEnddate('04-03-2023');
+         $userwork->setStatus(1);
+         $userwork->setUser($user);
+ 
+ 
+ 
+         
+         $entityManager->persist($user);
+         $entityManager->persist($userwork);
+ 
+         // actually executes the queries (i.e. the INSERT query)
+         $entityManager->flush();
+
+         echo '<a href="../../user_index">Back</a>';
+         echo "<br>";  
+         return new Response(
+             'Saved new User with id: '.$user->getId()
+             .' and new User Work with id: '.$userwork->getId()
+         );
+         
+     }
+
+      // add user is used to add fixed records in users table
+      #[Route('/get_user_work', name: 'get_user_work')]
+      public function getUSerwork(ManagerRegistry $doctrine,UserRepository $userRepository,AddressRepository $addressRepository,UsersWorkRepository $usersWorkRepository,LocationRepository $locationRepository) :Response
+      {
+         $entityManager = $doctrine->getManager();
+         
+        //get All User
+          $user = $doctrine->getRepository(User::class)->find(4);
+         
+          $userworks=$user->getUsersWorks()->toArray();
+          $userCountry=$user->getCountry()->getName();
+          $userLocation=$user->getLocations()->toArray();
+
+          
+          //get  User BY ID
+          $user_id=1;
+          $user = $doctrine->getRepository(User::class)->find($user_id);
+
+          $userworks=$user->getUsersWorks()->toArray();
+          $userCountry=$user->getCountry()->getName();
+          $userLocation=$user->getLocations()->toArray();
+
+          //get query  for Address data form custom query for sql and builder
+          $userAddress=$addressRepository->findOneByIdJoinedToAddress($user_id);
+           //get query  for Location data form custom query for sql and builder
+          $usersLocation=$locationRepository->findByUserId($user_id);
+          //get all user and user work base in custom join query
+          $getAllUserandWorkOrders=$userRepository->getUSerWorks();
+
+
+          echo '<a href="../../user_index">Back</a>';
+          echo "<br>";  
+
+          return new Response(
+              'Saved new User with id: '.$user->getId()
+              .' and new User Work with id: '
+          );
+          
+      }
+       // add user is used to add fixed records in users table
+       #[Route('/get_user_work_list', name: 'get_user_work_list')]
+       public function getUerworkList(ManagerRegistry $doctrine,UserRepository $userRepository,AddressRepository $addressRepository,UsersWorkRepository $usersWorkRepository,LocationRepository $locationRepository) :Response
+       {
+          $entityManager = $doctrine->getManager();
+          
+         //get All User
+           $user = $doctrine->getRepository(User::class)->find(4);
+          
+           $userworks=$user->getUsersWorks()->toArray();
+           $userCountry=$user->getCountry()->getName();
+           $userLocation=$user->getLocations()->toArray();
+ 
+           
+           //get  User BY ID
+           $user_id=1;
+           $user = $doctrine->getRepository(User::class)->find($user_id);
+ 
+           $userworks=$user->getUsersWorks()->toArray();
+           $userCountry=$user->getCountry()->getName();
+           $userLocation=$user->getLocations()->toArray();
+ 
+           //get query  for Address data form custom query for sql and builder
+           $userAddress=$addressRepository->findOneByIdJoinedToAddress($user_id);
+            //get query  for Location data form custom query for sql and builder
+           $usersLocation=$locationRepository->findByUserId($user_id);
+           //get all user and user work base in custom join query
+           $users=$userRepository->getUSerWorks();
+            
+           return $this->render('users/user_work_list.html.twig', [
+            'users' => $users,
+            ]);
+           
+       }
+        // add user is used to add fixed records in users table
+        #[Route('/get_user_work_delete/{id}', name: 'get_user_work_delete')]
+        public function getUserworkdelete(int $id,ManagerRegistry $doctrine,UserRepository $userRepository,AddressRepository $addressRepository,UsersWorkRepository $usersWorkRepository,LocationRepository $locationRepository) :Response
+        {
+
+           $entityManager = $doctrine->getManager();
+           
+          //get All User
+            $user = $doctrine->getRepository(User::class)->find(2);
+            //$entityManager->remove();
+            //$entityManager->flush();
+           // dd('dd');
+            $userworks=$user->getUsersWorks()->toArray();
+            $userCountry=$user->getCountry()->getName();
+            $userLocation=$user->getLocations()->toArray();
+  
+            
+            //get  User BY ID
+            $user_id=1;
+            $user = $doctrine->getRepository(User::class)->find($user_id);
+  
+            $userworks=$user->getUsersWorks()->toArray();
+            $userCountry=$user->getCountry()->getName();
+            $userLocation=$user->getLocations()->toArray();
+  
+            //get query  for Address data form custom query for sql and builder
+            $userAddress=$addressRepository->findOneByIdJoinedToAddress($user_id);
+             //get query  for Location data form custom query for sql and builder
+            $usersLocation=$locationRepository->findByUserId($user_id);
+            //get all user and user work base in custom join query
+            $users=$userRepository->getUSerWorks();
+             
+            return $this->render('users/user_work_list.html.twig', [
+             'users' => $users,
+             ]);
+            
+        }
+           // add user is used to add fixed records in users table
+      
     //using add_user_repo save user data usgin  UserRepository
     #[Route('/add_user_repo', name: 'create_user_repo')]
     public function createUSerRepo(UserRepository $userRepository): Response
@@ -950,6 +1115,29 @@ class UserController extends AbstractController
             $service->MailSend($email,$subject,$html);
             
             dd('Log store and email send  done');
+        }
+        
+         //call command using controler function and roting to call cmd
+         #[Route('/call_command' ,name:'call_command')]
+         public function call_command(KernelInterface $kernel): Response
+         {   
+            $application = new Application($kernel);
+            $application->setAutoExit(false);
+
+            $input = new ArrayInput([
+                'command' => 'user-command',
+                // (optional) define the value of command arguments
+            ]);
+
+            // You can use NullOutput() if you don't need the output
+            $output = new BufferedOutput();
+            $application->run($input, $output);
+
+            // return the output, don't use if you used NullOutput()
+            $content = $output->fetch();
+
+            // return new Response(""), if you used NullOutput()
+            return new Response($content);
         }
         
 }

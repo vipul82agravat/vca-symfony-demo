@@ -23,18 +23,18 @@ class SendEmailService
         
         $this->logger->info('I just got the logger');
         $this->logger->error('An error occurred');
-        $logger->debug('User {userId} has logged in', [
+        $this->logger->debug('User {userId} has logged in', [
             'userId' => '1',
         ]);
     
-        $logger->critical('I left the oven on!', [
+        $this->logger->critical('I left the oven on!', [
             // include extra "context" info in your logs
             'cause' => 'in_hurry',
         ]);
         
     }
    //send mail to InActiveUser
-    public function MailSend($user_email, $subject, $html){
+    public function MailSend($user_email,$subject,$html){
         
          
         $email = (new Email())
@@ -43,7 +43,7 @@ class SendEmailService
 		->cc('vipulagravat@aum.bz')
         ->subject($subject)
 		->text('Hey!'.$user_email)
-        ->html();
+        ->html($html);
         $this->mailer->send($email);
     }
 }

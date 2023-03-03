@@ -41,9 +41,9 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
 
-    App\EventListener\UserDBListener:
-        tags:
-            - { name: doctrine.event_listener, event: 'postPersist', connection: 'default' }  
+    # App\EventListener\UserDBListener:
+    #     tags:
+    #         - { name: doctrine.event_listener, event: 'postPersist', connection: 'default' }  
 
     App\Event\UserDBEventSubscriber:
         tags:

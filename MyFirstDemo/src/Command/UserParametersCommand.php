@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\ArrayInput;
 
 //#[AsCommand(name: 'user-params-command')]
 #[AsCommand(
@@ -32,8 +33,19 @@ class UserParametersCommand extends Command
     // write the code you want to execute when command runs
     protected function execute(InputInterface $input, OutputInterface $output): int
     {   
+        //call other command
+
+            // $command = $this->getApplication()->find('user-command');
+            // $arguments = [
+            //         ];
+
+            // $greetInput = new ArrayInput($arguments);
+            // $returnCode = $command->run($greetInput, $output);
+
+
         // If you want to write some output
-        $output->writeln('Frist  parameter => '. $input->getArgument('first_param'));
+        
+        $output->writeln('<bg=yellow;options=bold>foo</>Frist  parameter => '. $input->getArgument('first_param'));
         $output->writeln('Second parameter => '. $input->getArgument('second_params'));
         $output->writeln('Merge parameters => '. $input->getArgument('second_params').'-'.$input->getArgument('second_params'));
         return Command::SUCCESS;
@@ -55,5 +67,17 @@ class UserParametersCommand extends Command
             return Command::INVALID;
 
         }
+    }
+    public function callOtherCommand(InputInterface $input, OutputInterface $output){
+
+        $command = $this->getApplication()->find('demo:greet');
+
+        $arguments = [
+            'name'    => 'Fabien',
+            '--yell'  => true,
+        ];
+
+        $greetInput = new ArrayInput($arguments);
+        $returnCode = $command->run($greetInput, $output);
     }
 }

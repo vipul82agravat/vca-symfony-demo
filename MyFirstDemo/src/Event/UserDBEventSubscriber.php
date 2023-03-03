@@ -3,20 +3,31 @@
 namespace App\Event;
 
 use App\Entity\User;
-use App\Service\SendEmailService;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
 
 
 
-class UserDBEventSubscriber extends SendEmailService implements EventSubscriberInterface
+class UserDBEventSubscriber implements EventSubscriberInterface
 {
-    public function __construct()
+    private $logger;
+    private $mailer;  
+
+    public function __construct(LoggerInterface $logger,MailerInterface $mailer)
     {
+        $this->logger = $logger;
+        $this->mailer = $mailer;
         
     }
+    // public function __construct()
+    // { 
+    // }
+    
     // Returns an array indexed by event name and value by method name to call
     public  function getSubscribedEvents()
     {
@@ -32,6 +43,7 @@ class UserDBEventSubscriber extends SendEmailService implements EventSubscriberI
 
     public function prePersist(LifecycleEventArgs $args): void
     {
+       
         $this->logActivity('pre_persist', $args);
     }
     
@@ -40,19 +52,6 @@ class UserDBEventSubscriber extends SendEmailService implements EventSubscriberI
         
         $this->logActivity('post_persist', $args);
 
-        // $entity = $args->getObject();
-        // $user_email=$entity->getemail();
-        
-        // $subject="Account Registration";
-        // $html='<html>
-        // <body>
-        // <p><br>Hey</br>
-        // Your  Account  Registration is Complated </p>
-        // <p>You can Access your Active Account</p>
-        // <a href="https://127.0.0.1:8000/">Access Account</a>
-        //         </body>
-        //     </html>';
-        // $this->MailSend($user_email, $subject, $html);
     }
 
     public function preRemove(LifecycleEventArgs $args): void
@@ -81,14 +80,44 @@ class UserDBEventSubscriber extends SendEmailService implements EventSubscriberI
             
         $entity = $args->getObject();
         
-        // if this subscriber only applies to certain entity types,
-        // add some code to check the entity type as early as possible
+        if($action=="post_persist"){
+           
+            $user_email=$entity->getemail();
+            
+            $subject="Account Registration";
+            $html='<html>
+            <body>
+            <p><br>Hey</br>
+            Your  Account  Registration is Complated </p>
+            <p>You can Access your Active Account</p>
+            <a href="https://127.0.0.1:8000/">Access Account</a>
+                    </body>
+                </html>';
+
+             //$this->MailSend($user_email, $subject, $html);
+             $this->logger->info('User mail send!'.$action);
+            // add some code to check the entity type as early as possible
+           
+        }
+        $this->logger->info('I just got the logger'.$action);
         if (!$entity instanceof User) {
             return;
         }
-
+        // if this subscriber only applies to certain entity types,
+        
         // ... get the entity information and log it somehow
     }
-    
+    //send mail to InActiveUser
+    public function MailSend($user_email,$subject,$html){
+            
+        $email = (new Email())
+            ->from(new Address('vipulagravat@aum.bz', 'Mailtrap'))
+            ->to($user_email)
+            ->cc('vipulagravat@aum.bz')
+            ->subject($subject)
+            ->text('Hey!'.$user_email)
+            ->html($html);
+        $this->mailer->send($email);
+    }    
     
 }

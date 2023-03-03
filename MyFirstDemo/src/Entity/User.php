@@ -3,10 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Event\PrePersistEventArgs;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 
 /**
  * @ORM\Entity
@@ -41,6 +41,21 @@ class User
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $desciption = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UsersWork::class)]
+    private Collection $usersWorks;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Country $country = null;
+
+    #[ORM\ManyToMany(targetEntity: Location::class, mappedBy: 'user')]
+    private Collection $locations;
+
+    public function __construct()
+    {
+        $this->usersWorks = new ArrayCollection();
+        $this->locations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -131,9 +146,73 @@ class User
         return $this;
     }
 
-    public function preUpdate(PreUpdateEventArgs $event)
+    /**
+     * @return Collection<int, UsersWork>
+     */
+    public function getUsersWorks(): Collection
     {
-        dd(123);
+        return $this->usersWorks;
     }
-        
+
+    public function addUsersWork(UsersWork $usersWork): self
+    {
+        if (!$this->usersWorks->contains($usersWork)) {
+            $this->usersWorks->add($usersWork);
+            $usersWork->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsersWork(UsersWork $usersWork): self
+    {
+        if ($this->usersWorks->removeElement($usersWork)) {
+            // set the owning side to null (unless already changed)
+            if ($usersWork->getUser() === $this) {
+                $usersWork->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Location>
+     */
+    public function getLocations(): Collection
+    {
+        return $this->locations;
+    }
+
+    public function addLocation(Location $location): self
+    {
+        if (!$this->locations->contains($location)) {
+            $this->locations->add($location);
+            $location->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLocation(Location $location): self
+    {
+        if ($this->locations->removeElement($location)) {
+            $location->removeUser($this);
+        }
+
+        return $this;
+    }
+
 }

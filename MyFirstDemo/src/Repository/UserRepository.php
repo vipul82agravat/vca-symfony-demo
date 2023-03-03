@@ -21,18 +21,19 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function save(User $entity, bool $flush = false): void
+    public function save(User $user_entity, bool $flush = false): void
     {
-        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->persist($user_entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
     }
 
-    public function remove(User $entity, bool $flush = false): void
+    public function remove(User $user_entity, bool $flush = false): void
     {
-        $this->getEntityManager()->remove($entity);
+        
+        $this->getEntityManager()->remove($user_entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
@@ -99,6 +100,23 @@ class UserRepository extends ServiceEntityRepository
             SELECT * FROM user u
             ORDER BY u.name ASC
             ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+     }
+     //SQl custom quey for get the all user after the match  $id for user table  createQueryBuilder set query  getQuery query and execute query user
+     public function getUSerWorks(): array
+     {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+        SELECT * FROM `user` LEFT JOIN users_work on user.id=users_work.user_id;
+            ';
+        // $sql = '
+        // SELECT * FROM `user` LEFT JOIN users_work on user.id=users_work.user_id LEFT JOIN country on country.id=user.country_id;
+        //     ';
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
 
