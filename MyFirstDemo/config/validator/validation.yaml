@@ -5,4 +5,22 @@ App\Entity\User:
             - NotBlank: ~
         email:
             - NotBlank: ~
-            
+
+App\Entity\Contact:
+    properties:
+        firstname:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 5
+
+        lastname:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 5
+
+App\Entity\UsersWork:
+    properties:
+        startdate:
+            - Date: ~         

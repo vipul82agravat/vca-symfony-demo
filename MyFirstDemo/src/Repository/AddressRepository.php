@@ -23,6 +23,7 @@ class AddressRepository extends ServiceEntityRepository
 
     public function save(Address $entity, bool $flush = false): void
     {
+        
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {
@@ -73,6 +74,19 @@ class AddressRepository extends ServiceEntityRepository
                 ';
             $stmt = $conn->prepare($sql);
             $resultSet = $stmt->executeQuery(['id' => $userId]);
+            
+            return $resultSet->fetchAllAssociative();
+    
+        }
+        public function findAllByJoinedToAddress(): ? array
+        {
+            $conn = $this->getEntityManager()->getConnection();
+
+            $sql = '
+                SELECT * FROM `user` LEFT JOIN address on user.id=address.user_id;
+                ';
+            $stmt = $conn->prepare($sql);
+            $resultSet = $stmt->executeQuery();
             
             return $resultSet->fetchAllAssociative();
     

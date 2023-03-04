@@ -1,0 +1,59 @@
+{# templates/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+    {% block header %}
+
+
+     {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
+    
+    {% endblock %}
+        {% block stylesheets %}
+         
+        {% endblock %}
+
+        {% block javascripts %}
+        
+         <script src="{{ asset('js/dataTables.min.js') }}"></script>
+    
+
+        {% endblock %}  
+        
+      {% block body %}
+      
+      {{ a_variable }}
+    
+    <div class="container">
+
+    <br>
+    <a href="{{path('add_user_address')}}" class="btn btn-primary">AddUsersAddress</a>
+    <!-- <a href="{{path('user_class_custom_form')}}" class="btn btn-primary">AddUsersCustomForm</a> -->
+    <h2>My Users Address</h2>
+    
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+    
+   
+    <table id="myTable">
+      <tr class="header">
+        <th style="width:60%;">Name</th>
+        <th style="width:40%;">Email</th>
+        <th style="width:40%;">Address</th>
+        <th style="width:40%;">Action</th>
+      </tr>
+        {% for user in userAddress %}
+    
+        <tr>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.house_number}}</td>
+            <td><a href="">Edit</a>|<a href="">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+   
+    
+    </div>
+   {% endblock %}  
+
+{% block footer %}
+    <p style="text-align: center;">All Copy right@2023</p>
+{% endblock %}
