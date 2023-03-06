@@ -1,10 +1,9 @@
 # config/validator/validation.yaml
 App\Entity\User:
     properties:
-        name:
+         name:
             - NotBlank: ~
-        email:
-            - NotBlank: ~
+            
 
 App\Entity\Contact:
     properties:
@@ -13,7 +12,7 @@ App\Entity\Contact:
             - Length:
                 min: 2
                 max: 5
-
+            
         lastname:
             - NotBlank: ~
             - Length:

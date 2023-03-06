@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ContactRepository;
 use Doctrine\DBAL\Types\Types;
+use App\Validator\Constraints as NewAssert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -21,10 +22,10 @@ class Contact
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
+    
     #[ORM\Column(length: 255)]
-    #[Assert\Email(
-        message: 'The email {{ value }} is not a valid email.',
-    )]
+    #[Assert\NotBlank]
+    #[NewAssert\isGmail]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
