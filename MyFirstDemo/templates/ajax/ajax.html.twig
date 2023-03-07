@@ -1,0 +1,76 @@
+{# templates/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+ 
+ {% block header %}
+     
+     {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
+
+
+    {% endblock %}
+        {% block stylesheets %}
+         <style> 
+        .table { border-collapse: collapse; } 
+            .table th, td { 
+                border-bottom: 1px solid #ddd; 
+                width: 250px; 
+                text-align: left; 
+                align: left; 
+            } 
+        </style> 
+         {% endblock %}
+
+        {% block javascripts %}
+            <script language = "javascript">  
+
+            $(document).ready(function(){  
+            $("#loadinfo").on("click", function(event){  
+                $.ajax({  
+                url:        '/ajax_call',  
+                type:       'GET',
+                dataType:   'json',  
+                async:      true,  
+                
+                success: function(data, status) {  
+                    console.log( data.length);
+                     $('#info').html('welcome to ajax call');
+
+                    var e = $('<tr><th>Name</th><th>Address</th></tr>');  
+                    $('#userinfo').html('');  
+                    $('#userinfo').append(e);  
+                    
+                  for(i = 0; i < 1; i++) {  
+                     
+                     var e = $('<tr><td id = "name"></td><td id = "address"></td></tr>');
+                     
+                     $('#name', e).html(data['name']);  
+                     $('#address', e).html(data['address']);  
+                     $('#userinfo').append(e);  
+                  }  
+                },  
+                error : function(xhr, textStatus, errorThrown) {
+                    console.log(errorThrown,textStatus,xhr)  
+                    alert('Ajax request failed.');  
+                    $('#info').html('Ajax request failed');
+                }  
+                });  
+            });  
+        });  
+        </script> 
+        {% endblock %}  
+        {% block body %}
+             {% for message in app.flashes('success') %}
+            <div class="flash-success">
+                {{ message }}
+            </div>
+            {% endfor %}
+            <div class="container" style="background-color:#83990b">
+                <a id = "loadinfo" href = "#">Load Ajax information</a>  
+                </br> 
+                </br>  
+                <div id="info">Hii</div>
+                <table class = "table">  
+                    <tbody id = "userinfo"></tbody>  
+                </table>     
+            </div>
+           {% endblock %}  

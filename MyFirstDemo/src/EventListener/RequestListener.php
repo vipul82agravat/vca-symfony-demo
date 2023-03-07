@@ -10,6 +10,6 @@ class RequestListener
     public function onKernelRequest(RequestEvent $event)
     {
         
-        echo "request event is call";
+       // echo "request event is call";
     }
 }

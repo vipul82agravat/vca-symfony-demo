@@ -69,10 +69,24 @@
           
           </ul>
         </li>
-       <li><a href="{{ path('get_user_list')}}">Users</a></li>
-       <li><a href="{{ path('user_address_list')}}">Address</a></li>
-       <li><a href="{{ path('get_user_list')}}">TaskList</a></li>
-       <li><a href="{{ path('app_contact_create')}}">Contact</a></li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Ajax <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+             <li><a href="{{ path('app_ajax') }}">AjaxIndex</a></li>
+             <li><a href="{{ path('app_ajax_call') }}">AjaxGet</a></li>
+             <li><a href="{{ path('app_ajax_call_request') }}">AjaxPost</a></li>
+          
+        </ul>
+        </li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Users <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+              <li><a href="{{ path('get_user_list')}}">Users</a></li>
+              <li><a href="{{ path('user_address_list')}}">Address</a></li>
+              <li><a href="{{ path('get_user_list')}}">TaskList</a></li>
+          
+        </ul>
+        </li>
+      
+       <li><a href="{{ path('app_contact_list')}}">Contact</a></li>
         
         <li class="active"><a href="/">Logout</a></li>
       </ul>

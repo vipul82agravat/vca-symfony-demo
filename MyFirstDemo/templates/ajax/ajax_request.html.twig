@@ -1,0 +1,103 @@
+{# templates/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+ 
+ {% block header %}
+     
+     {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
+
+
+    {% endblock %}
+        {% block stylesheets %}
+         <style> 
+        .table { border-collapse: collapse; } 
+            .table th, td { 
+                border-bottom: 1px solid #ddd; 
+                width: 250px; 
+                text-align: left; 
+                align: left; 
+            } 
+        </style> 
+         {% endblock %}
+
+        {% block javascripts %}
+            <script language = "javascript">  
+
+            $(document).ready(function(){  
+
+                $("#input_text").keyup(function(){
+                var params=$("#input_text").val();
+                console.log(params)
+                $("input").css("background-color", "pink");
+
+                $.ajax({  
+                url:        '/ajax_call_request',  
+                type:       'POST', 
+                data: {
+                    "request_data": params,
+                    "user_id": "123"
+                },   
+                dataType:   'json',  
+                async:      true,  
+                
+                success: function(data, status) {  
+                    console.log( data.length);
+                     $('#info').html('welcome to ajax Paramters call!');
+                        $('#userinfo').append(data);  
+                    
+                },  
+                error : function(xhr, textStatus, errorThrown) {
+                    console.log(errorThrown,textStatus,xhr)  
+                    alert('Ajax request failed.');  
+                    $('#info').html('Ajax request failed');
+                }  
+                });
+
+                });
+
+                $("#loadinfo").on("click", function(event){  
+                    $.ajax({  
+                    url:        '/ajax_call_request',  
+                    type:       'POST', 
+                    data: {
+                        "request_data": "vipul agravat",
+                        "user_id": "123"
+                    },   
+                    dataType:   'json',  
+                    async:      true,  
+                    
+                    success: function(data, status) {  
+                        console.log( data.length);
+                        $('#info').html('welcome to ajax Paramters call!');
+                            $('#userinfo').append(data);  
+                        
+                    },  
+                    error : function(xhr, textStatus, errorThrown) {
+                        console.log(errorThrown,textStatus,xhr)  
+                        alert('Ajax request failed.');  
+                        $('#info').html('Ajax request failed');
+                    }  
+                    });  
+                });  
+            
+        });  
+        </script> 
+        {% endblock %}  
+        {% block body %}
+             {% for message in app.flashes('success') %}
+            <div class="flash-success">
+                {{ message }}
+            </div>
+            {% endfor %}
+            <div class="container" style="background-color:#83990b">
+                <a id = "loadinfo" href = "#">Load Ajax Parameters information</a>  
+                </br> 
+                </br>  
+                Enter Keyword:<input type="text" id="input_text">
+                <br><br><br>
+                <div id="info">Hii</div>
+                
+                  Your Request Parameters is   <p id = "userinfo"></p>  
+                  
+            </div>
+           {% endblock %}  

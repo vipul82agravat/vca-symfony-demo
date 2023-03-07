@@ -36,7 +36,7 @@ class UserType extends AbstractType
                     'Female' => "Female",
                 ],
             ])->add('desciption', TextareaType::class, [
-                'attr' => ['class' => 'tinymce'],
+                'attr' => ['class' => 'tinymce','name'=>'desciption'],
             ])
             ->add('token', HiddenType::class,['data' => 'abcdef'])
             ->add('status', ChoiceType::class, [

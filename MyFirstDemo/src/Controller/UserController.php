@@ -873,7 +873,7 @@ class UserController extends AbstractController
             $users->setName('');
             $users->setEmail('');
             $users->setStatus(1);
-                
+            //dd($request);
             $form = $this->createForm(UserType::class, $users);
             $entityManager = $doctrine->getManager();
             $form->handleRequest($request);

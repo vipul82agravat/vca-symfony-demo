@@ -1,0 +1,112 @@
+{# templates/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+ 
+ {% block header %}
+     
+     {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
+
+
+    {% endblock %}
+        {% block stylesheets %}
+         <style> 
+        .table { border-collapse: collapse; } 
+            .table th, td { 
+                border-bottom: 1px solid #ddd; 
+                width: 250px; 
+                text-align: left; 
+                align: left; 
+            } 
+        </style> 
+         {% endblock %}
+
+        {% block javascripts %}
+            <script language = "javascript">  
+
+            $(document).ready(function(){ 
+
+            $("#con_delete").on("click", function(event){  
+                alert('hii');
+                var id=2;//$("#input_text").val();
+                console.log(params)
+                $("input").css("background-color", "pink");
+
+                $.ajax({  
+                url:        '/contact_delete',  
+                type:       'POST', 
+                data: {
+                    "contact_id": id
+                },   
+                dataType:   'json',  
+                async:      true,  
+                
+                success: function(data, status) {  
+                    console.log( data.length);
+                     $('#info').html('welcome to ajax  call!');
+                        $('#userinfo').append(data);  
+                    
+                },  
+                error : function(xhr, textStatus, errorThrown) {
+                    console.log(errorThrown,textStatus,xhr)  
+                    alert('Ajax request failed.');  
+                    $('#info').html('Ajax request failed');
+                }  
+                });
+
+            }); 
+            $("#loadinfo").on("click", function(event){  
+                $.ajax({  
+                url:        '/contact_ajax_call',  
+                type:       'GET',
+                dataType:   'json',  
+                async:      true,  
+                
+                success: function(data, status) {  
+                    console.log( data.length);
+                    alert('Ajax  success Response');
+                     $('#info').html('welcome to ajax call');
+
+                    var e = $('<tr><th>Name</th><th>Email</th><th>Message</th><th>Action</th></tr>');  
+                    $('#contactinfo').html('');  
+                    $('#contactinfo').append(e);  
+                    
+                  for(i = 0; i < data.length; i++) {  
+                     contact = data[i];
+                     var e = $('<tr><td id = "name"></td><td id = "email"></td><td id = "message"></td><td id = "action"></td></tr>');
+                     
+                     $('#name', e).html(contact['name']);  
+                     $('#email', e).html(contact['email']);  
+                     $('#message', e).html(contact['message']);  
+                     $('#action', e).html(contact['action']);  
+                     $('#contactinfo').append(e);  
+                  }  
+                  alert('Data load  success');
+                },  
+                error : function(xhr, textStatus, errorThrown) {
+                    console.log(errorThrown,textStatus,xhr)  
+                    alert('Ajax request failed.');  
+                    $('#info').html('Ajax request failed');
+                }  
+                });  
+            });  
+        });  
+        </script> 
+        {% endblock %}  
+        {% block body %}
+             {% for message in app.flashes('success') %}
+            <div class="flash-success">
+                {{ message }}
+            </div>
+            {% endfor %}
+            <div class="container" style="background-color:#83990b">
+             <a href="{{path('app_contact_create')}}" class="btn btn-primary">AddContact</a>
+                <a id = "loadinfo" href = "#"  class="btn btn-primary">Load Contact information</a>  
+                </br> 
+                </br>  
+                <div id="info">Hii</div>
+                <div id="userinfo"></div>
+                <table class = "table">  
+                    <tbody id = "contactinfo"></tbody>  
+                </table>     
+            </div>
+           {% endblock %}  
