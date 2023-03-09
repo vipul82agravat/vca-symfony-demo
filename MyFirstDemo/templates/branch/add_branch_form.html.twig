@@ -1,0 +1,93 @@
+{# templates/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+    {% block header %}
+     
+     {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
+
+
+    {% endblock %}
+        {% block stylesheets %}
+         
+         {% endblock %}
+
+        {% block javascripts %}
+       
+        <script type="text/javascript">
+
+                $(document).ready(function(){
+                    var maxField = 10; //Input fields increment limitation
+                    var addButton = $('.add_button'); //Add button selector
+                    var wrapper = $('.field_wrapper'); //Input field wrapper
+                    var fieldHTML = '<div><input type="text" name="branch_name[]" class="form-control form-control" value=""/><a href="javascript:void(0);" class="remove_button">Remove</a></div>'; //New input field html 
+                    var x = 1; //Initial field counter is 1
+                    
+                    //Once add button is clicked
+                    $(addButton).click(function(){
+                        //Check maximum number of input fields
+                        if(x < maxField){ 
+                            x++; //Increment field counter
+                            $(wrapper).append(fieldHTML); //Add field html
+                        }
+                    });
+                    
+                    //Once remove button is clicked
+                    $(wrapper).on('click', '.remove_button', function(e){
+                        e.preventDefault();
+                        $(this).parent('div').remove(); //Remove field html
+                        x--; //Decrement field counter
+                    });
+                });
+        </script>
+        {% endblock %}  
+    {% block body %}
+       
+    <div class="container">
+    {{ form_start(form, {'action': path('app_add_branch'),'method': 'POST'}) }}
+        <div>
+            {{ form_label(form.user) }}
+            {{ form_widget(form.user,{'attr': {'class': 'form-control'}}) }}
+
+            <small>{{ form_help(form.user) }}</small>
+
+            <div class="form-error">
+                {{ form_errors(form.status) }}
+            </div>
+        </div>
+        <div class="">
+            {{ form_label(form.name) }}
+            <input type="text" name="branch_name[]" class="form-control form-control" value=""/>
+
+            <small>{{ form_help(form.name,) }}</small>
+
+            <div class="form-error">
+                {{ form_errors(form.name) }}
+            </div>
+        </div>
+        <div class="field_wrapper">
+            <br>
+            
+            <a href="javascript:void(0);" class="add_button" title="Add field">Add New</a>
+        </div>
+         <div>
+            {{ form_label(form.status) }}
+            {{ form_widget(form.status,{'attr': {'class': 'form-control'}}) }}
+
+            <small>{{ form_help(form.status) }}</small>
+
+            <div class="form-error">
+                {{ form_errors(form.status) }}
+            </div>
+        </div>
+        <div>
+        <br>
+            {{ form_widget(form.save,{'attr': {'class': 'form-control'}}) }}
+
+        </div>
+        {{ form_end(form, {render_rest: false}) }}
+        </div>
+   {% endblock %}  
+
+{% block footer %}
+    <p style="text-align: center;">All Copy right@2023</p>
+{% endblock %}

@@ -752,9 +752,9 @@ class UserController extends AbstractController
         $users = $doctrine->findAll();
         
         if (!$users) {
-            // throw $this->createNotFoundException(
-            //     'No User found for id'
-            // );
+            throw $this->createNotFoundException(
+                'No User found for id'
+            );
         }
         return $this->render('users/user_list.html.twig', [
             'users' => $users,

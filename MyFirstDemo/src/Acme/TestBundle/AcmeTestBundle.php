@@ -6,4 +6,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class AcmeTestBundle extends Bundle
 {
+    public function getPath(): string
+    {
+        return __DIR__;
+    }
 }

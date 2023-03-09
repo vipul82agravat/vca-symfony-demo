@@ -12,6 +12,7 @@
         "doctrine/orm": "^2.14",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/asset": "6.2.*",
+        "symfony/config": "6.2.*",
         "symfony/console": "6.2.*",
         "symfony/dependency-injection": "6.2.*",
         "symfony/dotenv": "6.2.*",
@@ -41,12 +42,14 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "Acme\\TestBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "App\\Tests\\": "tests/",
+            "Acme\\TestBundle\\Tests\\": "tests/"
         }
     },
     "replace": {

@@ -35,7 +35,7 @@ class Contact
 
     #[ORM\Column(nullable: true)]
     #[Assert\NotBlank]
-    #[Assert\Length(min: 10,max: 12)]
+    #[Assert\Length(min: 10,max: 15)]
     private ?int $phonenumber = null;
 
     public function getId(): ?int

@@ -1,0 +1,61 @@
+{# templates/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+    {% block header %}
+
+
+     {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
+    
+    {% endblock %}
+        {% block stylesheets %}
+         
+        {% endblock %}
+
+        {% block javascripts %}
+        
+         <script src="{{ asset('js/dataTables.min.js') }}"></script>
+    
+
+        {% endblock %}  
+        
+      {% block body %}
+      
+      {{ a_variable }}
+    
+    <div class="container">
+    
+    {% for message in app.flashes('notice') %}
+    <div class="flash-notice" style="background-color: darkorange;">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <br>
+    <a href="{{path('app_add_branch')}}" class="btn btn-primary">AddUsersBranch</a>
+    <h2>My Users Branch</h2>
+    
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+    
+   
+    <table id="myTable">
+      <tr class="header">
+        <th style="width:60%;">UserName</th>
+        <th style="width:40%;">BrnachName</th>
+        <th style="width:40%;">Action</th>
+      </tr>
+        {% for user in userBranch %}
+
+        <tr>
+            <td>{{user.user}}</td>
+            <td>{{user.name}}</td>
+            <td><a href="{{ url('app_delete_branch',{'id': user.id })}}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+   
+    
+    </div>
+   {% endblock %}  
+
+{% block footer %}
+    <p style="text-align: center;">All Copy right@2023</p>
+{% endblock %}

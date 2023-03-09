@@ -13,3 +13,4 @@ return [
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
     App\Acme\TestBundle\AcmeTestBundle::class => ['all' => true],
 ];
+    

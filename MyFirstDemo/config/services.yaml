@@ -69,5 +69,13 @@ services:
         tags:
             - { name: 'console.command', command: 'user-notify-command' }     
 
+    App\Service\RegisterService:
+        arguments:
+            $logger: '@monolog.logger.request'
+            $sendMail: !closure '@App\Mail\MailNotifyMessage' 
+            $generateMessageHash: !closure '@App\Hash\MessageHashGenerator' 
+
+        
+   
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

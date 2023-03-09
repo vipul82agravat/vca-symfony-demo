@@ -13,6 +13,9 @@ use App\Controller\UserController;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Form\Type\UserAddressType;
+use App\Service\MessageGenerator;
+use App\Service\RegisterService;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class UserDetailsController extends AbstractController
 {
@@ -48,7 +51,7 @@ class UserDetailsController extends AbstractController
 
         $user = $entityManager->getRepository(User::class)->find(2);
         $userAddress= new Address();
-        $userAddress->setHouseNumber('adsfasasf');
+        $userAddress->setHouseNumber('');
         //$userAddress->setUser('1');
         
         $form = $this->createForm(UserAddressType::class, $userAddress);
@@ -57,7 +60,7 @@ class UserDetailsController extends AbstractController
           //  'action' => $this->generateUrl('user_class_form'),
             //'method' => 'POST']);
 
-       
+            //dd($request);
             $form->handleRequest($request);
             
             if ($form->isSubmitted() && $form->isValid()) {
@@ -103,6 +106,23 @@ class UserDetailsController extends AbstractController
             $response=$user->download($path);
             
             return $response;
+    }
+
+    #[Route('/dependency_injection', name: 'dependency_injection')]
+    public function dependency_injection(RegisterService $registerService): Response
+    {       
+        $helloword=$registerService->helloWorld();
+        $log=$registerService->log();
+        $default=$registerService->default();
+        $mail=$registerService->mailSend();
+        $hashCall=$registerService->hashCall();
+        $getRandomMessage=$registerService->getRandomMessage();
+        $pageService=$registerService->pageService();
+        $pageRender=$registerService->pageRender();
+        echo '<a href="../../user_index">Back</a>';
+        echo "<br>"; 
+        
+        dd($helloword,$log,$mail,$hashCall,$getRandomMessage,$pageService,$default,$pageRender);
     }
 
     

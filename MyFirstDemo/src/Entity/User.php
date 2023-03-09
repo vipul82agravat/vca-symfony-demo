@@ -53,10 +53,17 @@ class User
     #[ORM\ManyToMany(targetEntity: Location::class, mappedBy: 'user')]
     private Collection $locations;
 
+    #[ORM\ManyToOne(inversedBy: 'user')]
+    private ?UseBranch $useBranch = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Branch::class)]
+    private Collection $branches;
+
     public function __construct()
     {
         $this->usersWorks = new ArrayCollection();
         $this->locations = new ArrayCollection();
+        $this->branches = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -212,6 +219,48 @@ class User
     {
         if ($this->locations->removeElement($location)) {
             $location->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getUseBranch(): ?UseBranch
+    {
+        return $this->useBranch;
+    }
+
+    public function setUseBranch(?UseBranch $useBranch): self
+    {
+        $this->useBranch = $useBranch;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Branch>
+     */
+    public function getBranches(): Collection
+    {
+        return $this->branches;
+    }
+
+    public function addBranch(Branch $branch): self
+    {
+        if (!$this->branches->contains($branch)) {
+            $this->branches->add($branch);
+            $branch->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBranch(Branch $branch): self
+    {
+        if ($this->branches->removeElement($branch)) {
+            // set the owning side to null (unless already changed)
+            if ($branch->getUser() === $this) {
+                $branch->setUser(null);
+            }
         }
 
         return $this;
