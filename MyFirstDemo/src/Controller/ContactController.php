@@ -24,7 +24,7 @@ class ContactController extends AbstractController
             'controller_name' => 'ContactController',
         ]);
     }
-    #[Route('/contact_create', name: 'app_contact_create')]
+    #[Route('/  ', name: 'app_contact_create')]
     public function createContact(Request $request,ContactRepository $contactRepository): Response
     {
         $contact = new Contact();

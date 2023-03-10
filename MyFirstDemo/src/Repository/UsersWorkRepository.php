@@ -55,13 +55,14 @@ class UsersWorkRepository extends ServiceEntityRepository
         ;
     }
 
-//    public function findOneBySomeField($value): ?UsersWork
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function findByAllUserWork(): array
+   {
+    return $this->createQueryBuilder('u')
+    // ->andWhere('u.user_id = :val')
+    // ->setParameter('val', $value)
+    ->orderBy('u.id', 'ASC')
+    ->setMaxResults(10)
+    ->getQuery()
+    ->getResult();
+   }
 }

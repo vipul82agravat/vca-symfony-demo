@@ -53,6 +53,17 @@ class CountryRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
+    public function findAllCountry($value): array
+    {
+        return $this->createQueryBuilder('c')
+            // ->andWhere('c.exampleField = :val')
+            // ->setParameter('val', $value)
+            ->orderBy('c.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Country
 //    {

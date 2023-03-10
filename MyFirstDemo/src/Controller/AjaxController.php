@@ -14,7 +14,8 @@ class AjaxController extends AbstractController
     #[Route('/ajax', name: 'app_ajax')]
     public function index(): Response
     {
-        return $this->render('ajax/index.html.twig', [
+            
+            return $this->render('ajax/index.html.twig', [
             'controller_name' => 'AjaxController',
         ]);
     }

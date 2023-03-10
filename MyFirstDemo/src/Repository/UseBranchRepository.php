@@ -63,4 +63,16 @@ class UseBranchRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+   public function findAllBranch($value): array
+   {
+       return $this->createQueryBuilder('u')
+        //    ->andWhere('u.exampleField = :val')
+        //    ->setParameter('val', $value)
+           ->orderBy('u.id', 'ASC')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
 }

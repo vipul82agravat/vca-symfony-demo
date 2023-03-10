@@ -8,6 +8,8 @@ use App\Repository\UserRepository;
 use App\Repository\AddressRepository;
 use App\Repository\UsersWorkRepository;
 use App\Repository\LocationRepository;
+use App\Repository\BranchRepository;
+use App\Repository\ContactRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -253,20 +255,20 @@ class UserController extends AbstractController
       }
        // add user is used to add fixed records in users table
        #[Route('/get_user_work_list', name: 'get_user_work_list')]
-       public function getUerworkList(ManagerRegistry $doctrine,UserRepository $userRepository,AddressRepository $addressRepository,UsersWorkRepository $usersWorkRepository,LocationRepository $locationRepository) :Response
+       public function getUerworkList(ManagerRegistry $doctrine,UserRepository $userRepository,AddressRepository $addressRepository,UsersWorkRepository $usersWorkRepository,LocationRepository $locationRepository,ContactRepository $contactRepository,BranchRepository $branchRepository) :Response
        {
           $entityManager = $doctrine->getManager();
           
          //get All User
-           $user = $doctrine->getRepository(User::class)->find(4);
+           $user = $doctrine->getRepository(User::class)->find(5);
           
            $userworks=$user->getUsersWorks()->toArray();
            $userCountry=$user->getCountry()->getName();
            $userLocation=$user->getLocations()->toArray();
- 
+           //dd($user,$userworks,$userCountry,$userLocation);
            
            //get  User BY ID
-           $user_id=1;
+           $user_id=5;
            $user = $doctrine->getRepository(User::class)->find($user_id);
  
            $userworks=$user->getUsersWorks()->toArray();
@@ -274,12 +276,20 @@ class UserController extends AbstractController
            $userLocation=$user->getLocations()->toArray();
  
            //get query  for Address data form custom query for sql and builder
-           $userAddress=$addressRepository->findOneByIdJoinedToAddress($user_id);
+           $userAddress=$addressRepository->findAllUserAddress();
+          
+           //$userAddress=$addressRepository->findOneByIdJoinedToAddress($userId);
             //get query  for Location data form custom query for sql and builder
-           $usersLocation=$locationRepository->findByUserId($user_id);
+           //$usersLocation=$locationRepository->findByUserId($user_id);
+           $usersLocation=$locationRepository->findAllLocation();
+           
            //get all user and user work base in custom join query
-           $users=$userRepository->getUSerWorks();
-            
+           $userswork=$usersWorkRepository->findByAllUserWork();
+           $usersbranch=$branchRepository->findAllUserBranch();
+           $userscontact=$contactRepository->findAllContact();
+           $users=$userRepository->findAllUser();
+           
+           dd($usersbranch,$userscontact,$userAddress,$usersLocation, $users,$userswork);
            return $this->render('users/user_work_list.html.twig', [
             'users' => $users,
             ]);
@@ -293,10 +303,10 @@ class UserController extends AbstractController
            $entityManager = $doctrine->getManager();
            
           //get All User
-            $user = $doctrine->getRepository(User::class)->find(2);
-            //$entityManager->remove();
-            //$entityManager->flush();
-           // dd('dd');
+            $user = $doctrine->getRepository(User::class)->find(7);
+            // $entityManager->remove();
+            // $entityManager->flush();
+            // dd('dd');
             $userworks=$user->getUsersWorks()->toArray();
             $userCountry=$user->getCountry()->getName();
             $userLocation=$user->getLocations()->toArray();
@@ -1044,7 +1054,7 @@ class UserController extends AbstractController
 
         // twigRender render controller exmple to render tiwg page to other controller function data and record
         #[Route('/twig_render_controller',name:'twig_render_controller')]
-        public function twigRender(UserRepository $userRepository): Response
+        public function twigRender(UserRepository $userRepository,Request $request): Response
         {   
             $users = $userRepository->findAll();
             
@@ -1059,14 +1069,15 @@ class UserController extends AbstractController
                 'notice',
                 'Your changes are  saved! '.$user_name
             );
-            
-            return $this->render('twig/render-controller.html.twig', ['users'=>$users]);
+            $location=$request->get('location');
+            return $this->render('twig/render-controller.html.twig', ['users'=>$users,'location'=>$location]);
         }
 
         // get user information base on user id to show inside the twig file page any in page
         #[Route('/get_user_info/{id}',name:'get_user_info')]
-        public function userInfo(ManagerRegistry $doctrine,int $id) :Response
+        public function userInfo(ManagerRegistry $doctrine,int $id,Request $request) :Response
         {
+                
                 $entityManager = $doctrine->getManager();
                 $user = $entityManager->getRepository(User::class)->find($id);
                
@@ -1083,6 +1094,7 @@ class UserController extends AbstractController
                 $response.='<b>User Gender</b>  '.$user->getGender();
                 $response.='<br>';
                 $response.='<b>User Desciption</b>  '.$user->getDesciption();
+                $location=1;
                 $response.='<b><a href="get_user_update/'.$user->getId().'"> VieMore</a></b>  ';
                 return new Response($response);
             

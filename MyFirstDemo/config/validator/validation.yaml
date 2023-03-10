@@ -22,4 +22,6 @@ App\Entity\Contact:
 App\Entity\UsersWork:
     properties:
         startdate:
-            - Date: ~         
+        DATE: ~
+        #Type: \DateTime 
+                     

@@ -65,11 +65,11 @@ class UserRepository extends ServiceEntityRepository
 //        ;
 //    }
     //custom quey for get the all user after the match  $id for user table  createQueryBuilder set query  getQuery query and execute query user
-    public function findAllUser(int $id): array
+    public function findAllUser(): array
     {
         $qb = $this->createQueryBuilder('u')
-            ->where('u.id >= :id')
-            ->setParameter('id', $id)
+            // ->where('u.id >= :id')
+            // ->setParameter('id', $id)
             ->orderBy('u.name', 'ASC');
 
         $query = $qb->getQuery();

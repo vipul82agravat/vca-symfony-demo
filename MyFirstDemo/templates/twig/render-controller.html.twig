@@ -22,7 +22,7 @@
             {{user['name']}}
             <br>
             {{ render(controller(
-                'App\\Controller\\UserController::userInfo',{'id':user['id']}
+                'App\\Controller\\UserController::userInfo',{'id':location}
             )) }}
             <br>
             <hr>

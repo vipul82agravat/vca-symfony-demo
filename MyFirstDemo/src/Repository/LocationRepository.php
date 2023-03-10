@@ -54,6 +54,18 @@ class LocationRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+    public function findAllLocation(): array
+   {
+       return $this->createQueryBuilder('l')
+        //    ->andWhere('l.exampleField = :val')
+        //    ->setParameter('val', $value)
+           ->orderBy('l.id', 'ASC')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
 //    public function findOneBySomeField($value): ?Location
 //    {
 //        return $this->createQueryBuilder('l')
@@ -73,6 +85,20 @@ class LocationRepository extends ServiceEntityRepository
             ';
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery(['id' => $userId]);
+        
+        return $resultSet->fetchAllAssociative();
+
+    }
+    public function findByUser(): ? array
+    {
+        
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT * FROM `location_user` LEFT JOIN user on user.id=location_user.user_id LEFT JOIN location on location.id=location_user.location_id;
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
         
         return $resultSet->fetchAllAssociative();
 

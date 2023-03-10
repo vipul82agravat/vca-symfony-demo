@@ -68,16 +68,16 @@ class UserParametersCommand extends Command
 
         }
     }
-    public function callOtherCommand(InputInterface $input, OutputInterface $output){
+    // public function callOtherCommand(InputInterface $input, OutputInterface $output){
 
-        $command = $this->getApplication()->find('demo:greet');
+    //     $command = $this->getApplication()->find('demo:greet');
 
-        $arguments = [
-            'name'    => 'Fabien',
-            '--yell'  => true,
-        ];
+    //     $arguments = [
+    //         'name'    => 'Fabien',
+    //         '--yell'  => true,
+    //     ];
 
-        $greetInput = new ArrayInput($arguments);
-        $returnCode = $command->run($greetInput, $output);
-    }
+    //     $greetInput = new ArrayInput($arguments);
+    //     $returnCode = $command->run($greetInput, $output);
+    // }
 }

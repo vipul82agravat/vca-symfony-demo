@@ -64,13 +64,23 @@ class AddressRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+        public function findAllUserAddress(): array
+        {
+            return $this->createQueryBuilder('a')
+                ->orderBy('a.id', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult()
+            ;
+        }
+
 
         public function findOneByIdJoinedToAddress(int $userId): ? array
         {
             $conn = $this->getEntityManager()->getConnection();
-
+            
             $sql = '
-                SELECT * FROM `user` LEFT JOIN address on user.id=address.user_id WHERE user.id > :id;
+                SELECT * FROM `user` LEFT JOIN address on user.id=address.user_id WHERE address.user_id > :id;
                 ';
             $stmt = $conn->prepare($sql);
             $resultSet = $stmt->executeQuery(['id' => $userId]);
