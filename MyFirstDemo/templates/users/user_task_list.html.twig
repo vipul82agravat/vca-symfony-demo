@@ -1,0 +1,61 @@
+{# templates/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+    {% block header %}
+    
+      
+     {% set menuitem = 'users/menu.html.twig' %}
+     {% include menuitem %}
+    
+    {% endblock %}
+        {% block stylesheets %}
+         
+        {% endblock %}
+
+        {% block javascripts %}
+        
+         <script src="{{ asset('js/dataTables.min.js') }}"></script>
+    
+
+        {% endblock %}  
+        
+      {% block body %}
+      
+      {{ a_variable }}
+    
+    <div class="container">
+
+   
+    <a href="{{path('user_task_add_form')}}" class="btn btn-primary">AddUsersTask</a>
+    <a href="{{path('user_class_custom_form')}}" class="btn btn-primary">AddUsersCustomForm</a>
+    <h2>My Users Task List</h2>
+     
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+    
+   
+    <table id="myTable">
+      <tr class="header">
+        <th style="width:60%;">Task</th>
+        <th style="width:40%;">Startdate</th>
+        <th style="width:40%;">Enddate</th>
+        <th style="width:40%;">Status</th>
+        <th style="width:40%;">Action</th>
+      </tr>
+        {% for user in usersTask %}
+    
+        <tr>
+            <td>{{user.getTaskname()}}</td>
+            <td>{{user.getStartdate}}</td>
+            <td>{{user.getEnddate}}</td>
+            <td>{{user.getStatus}}</td>
+            <td><a href="{{ url('get_user_work_delete',{'id': user.id })}}">Edit</a>|<a href="{{ url('get_user_task_delete',{'id': user.getId() })}}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+   
+    
+    </div>
+   {% endblock %}  
+
+{% block footer %}
+    <p style="text-align: center;">All Copy right@2023</p>
+{% endblock %}

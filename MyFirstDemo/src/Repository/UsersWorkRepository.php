@@ -42,11 +42,11 @@ class UsersWorkRepository extends ServiceEntityRepository
 //    /**
 //     * @return UsersWork[] Returns an array of UsersWork objects
 //     */
-    public function findByUserId($value): array
+    public function findOneByIdJoinedToWorks($value): array
     {
         
         return $this->createQueryBuilder('u')
-            ->andWhere('u.user_id = :val')
+            ->andWhere('u.user = :val')
             ->setParameter('val', $value)
             ->orderBy('u.id', 'ASC')
             ->setMaxResults(10)

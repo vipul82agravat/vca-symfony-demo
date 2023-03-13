@@ -54,15 +54,30 @@ class BranchRepository extends ServiceEntityRepository
        ;
    }
 
-//    public function findOneBySomeField($value): ?Branch
-//    {
-//        return $this->createQueryBuilder('b')
-//            ->andWhere('b.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function findOneByIdJoinedToBranch($userId): ?array
+   {
+       return $this->createQueryBuilder('b')
+           ->andWhere('b.user = :id')
+           ->setParameter('id', $userId)
+           ->orderBy('b.id', 'ASC')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+   public function findOneByIdleftJoinedToBranch($userId): ?array
+   {
+        return $this->createQueryBuilder('bb')
+        ->from(Branch::class, 'b')
+        ->leftJoin('b.user', 'u')
+        ->andWhere('b.user = :id')
+        ->setParameter('id', $userId)
+        ->orderBy('b.id', 'ASC')
+        ->setMaxResults(10)
+        ->getQuery()
+        ->getResult()
+    ;
+   }
     public function saveBranch($branch,int $userId,$status): ? array
     {
         

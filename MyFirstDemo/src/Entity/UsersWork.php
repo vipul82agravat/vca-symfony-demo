@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UsersWorkRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UsersWorkRepository::class)]
 class UsersWork
@@ -14,6 +15,8 @@ class UsersWork
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min:7,max: 12)]
     private ?string $taskname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -97,4 +100,5 @@ class UsersWork
     {
         return true;
     }
+    
 }

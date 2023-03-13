@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Location;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -42,39 +43,47 @@ class LocationRepository extends ServiceEntityRepository
 //    /**
 //     * @return Location[] Returns an array of Location objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('l.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function usersLocationId(int $userId): array
+    {
+        return $this->createQueryBuilder('lu')
+        // ->select('location_user')
+        // ->from('location_user')
+        // ->leftJoin('b.user', 'u')
+        // ->andWhere('b.user = :id')
+        // ->setParameter('id', $userId)
+        // ->orderBy('b.id', 'ASC')
+        ->setMaxResults(10)
+        ->getQuery()
+        ->getResult();
+       
+    }
+    
 
+    //createQueryBuilder
     public function findAllLocation(): array
+    {
+
+        return $this->createQueryBuilder('l')
+            //    ->andWhere('l.exampleField = :val')
+            //    ->setParameter('val', $value)
+            ->orderBy('l.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+   //createQueryBuilder
+   public function findOneBySomeField($value): ?Location
    {
        return $this->createQueryBuilder('l')
-        //    ->andWhere('l.exampleField = :val')
-        //    ->setParameter('val', $value)
-           ->orderBy('l.id', 'ASC')
-           ->setMaxResults(10)
+           ->andWhere('l.exampleField = :val')
+           ->setParameter('val', $value)
            ->getQuery()
-           ->getResult()
+           ->getOneOrNullResult()
        ;
    }
-
-//    public function findOneBySomeField($value): ?Location
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //row query
     public function findByUserId(int $userId): ? array
     {
         
@@ -89,6 +98,7 @@ class LocationRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
 
     }
+    //row query
     public function findByUser(): ? array
     {
         

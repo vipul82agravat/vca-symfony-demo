@@ -64,6 +64,17 @@ class UserRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findOneByIdJoinedToUser($userId): ?array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $userId)
+            ->orderBy('u.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     //custom quey for get the all user after the match  $id for user table  createQueryBuilder set query  getQuery query and execute query user
     public function findAllUser(): array
     {

@@ -245,7 +245,7 @@ class User
     }
 
     public function addBranch(Branch $branch): self
-    {
+    {   
         if (!$this->branches->contains($branch)) {
             $this->branches->add($branch);
             $branch->setUser($this);

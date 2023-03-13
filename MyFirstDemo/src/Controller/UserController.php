@@ -35,6 +35,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Form\Type\UserType;
+use App\Form\Type\UserTaskType;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Event\UsertCreateEvent;
 use App\Event\UserUpdateEvent;
@@ -258,7 +259,7 @@ class UserController extends AbstractController
        public function getUerworkList(ManagerRegistry $doctrine,UserRepository $userRepository,AddressRepository $addressRepository,UsersWorkRepository $usersWorkRepository,LocationRepository $locationRepository,ContactRepository $contactRepository,BranchRepository $branchRepository) :Response
        {
           $entityManager = $doctrine->getManager();
-          
+         
          //get All User
            $user = $doctrine->getRepository(User::class)->find(5);
           
@@ -276,13 +277,30 @@ class UserController extends AbstractController
            $userLocation=$user->getLocations()->toArray();
  
            //get query  for Address data form custom query for sql and builder
+           //$userAddress=$addressRepository->findAllUserAddress();
+           
+
+        //    $userDetails=$userRepository->findOneByIdJoinedToUser(5);
+        //    $contryName=$userDetails[0]->getCountry()->getName();
+        //    $locationName=$userDetails[0]->getLocations()->toArray()[0]->getLocationName();
+        //    $branchName=$userDetails[0]->getBranches()->toArray()[0]->getName();
+        //    $workhName=$userDetails[0]->getUsersWorks()->toArray()[0]->getTaskname();
+        
+           $userAddressBYId=$addressRepository->findOneByIdJoinedToAddress(2);
+           $userBranchBYId=$branchRepository->findOneByIdJoinedToBranch(5);
+           $leftuserBranchBYId=$branchRepository->findOneByIdleftJoinedToBranch(5);
+           $userWorkBYId=$usersWorkRepository->findOneByIdJoinedToWorks(2);
+           $usersLocationId=$locationRepository->findAllLocation();
+           $usersLocationAll=$usersLocationId[0]->getUser()->toArray()[0]->getName();
            $userAddress=$addressRepository->findAllUserAddress();
-          
+           $joinusersLocation=$locationRepository->usersLocationId(3);
+           dd($joinusersLocation);
+           //dd($userAddressBYId[leftuserBranchBYId]->getuser()->getName());
            //$userAddress=$addressRepository->findOneByIdJoinedToAddress($userId);
             //get query  for Location data form custom query for sql and builder
-           //$usersLocation=$locationRepository->findByUserId($user_id);
-           $usersLocation=$locationRepository->findAllLocation();
            
+           //$usersLocation=$locationRepository->findAllLocation();
+
            //get all user and user work base in custom join query
            $userswork=$usersWorkRepository->findByAllUserWork();
            $usersbranch=$branchRepository->findAllUserBranch();
@@ -760,7 +778,7 @@ class UserController extends AbstractController
     {   
         //findAll custom funstion  SQL query 
         $users = $doctrine->findAll();
-        
+        ;
         if (!$users) {
             throw $this->createNotFoundException(
                 'No User found for id'
@@ -771,6 +789,23 @@ class UserController extends AbstractController
         ]);
     }
 
+     //get the all user list
+     #[Route('/get_user_task_list', name: 'get_user_task_list')]
+     public function getUserTaskList(UsersWorkRepository $doctrine,int $id=1) :Response
+     {   
+         //findAll custom funstion  SQL query 
+         $usersTask = $doctrine->findByAllUserWork();
+        
+         if (!$usersTask) {
+             throw $this->createNotFoundException(
+                 'No User found for id'
+             );
+         }
+         return $this->render('users/user_task_list.html.twig', [
+             'usersTask' => $usersTask,
+         ]);
+     }
+ 
     // User Registration form for add new user details with type class
     #[Route('/user_add_form',name:'user_add_form')]
     public function userClassFrom(Request $request,ManagerRegistry $doctrine) : Response
@@ -808,7 +843,7 @@ class UserController extends AbstractController
         return $this->render('users/user_form.html.twig', [
             'form' => $form,
         ]);
-    }
+    }   
 
     //get user details base on user id and update  new  records user details
     #[Route('/get_user_update/{id}', name: 'get_user_update')]
@@ -872,6 +907,47 @@ class UserController extends AbstractController
         return $this->redirectToRoute('get_user_list');
     }
 
+    // User Registration form for add new user details with type class
+    #[Route('/user_task_add_form',name:'user_task_add_form')]
+    public function userTaskClassFrom(Request $request,ManagerRegistry $doctrine) : Response
+    {
+        $entityManager = $doctrine->getManager();
+        $user = $entityManager->getRepository(User::class)->find(2);
+        $userTask= new UsersWork();
+        $userTask->setTaskname('');
+        $userTask->getStartdate('');
+        $userTask->setEnddate('');
+        $userTask->setStatus(1);
+        $userTask->setUser($user);
+        
+
+        $form = $this->createForm(UserTaskType::class, $userTask);
+        //$form = $this->createForm(UserType::class, [
+          //  'action' => $this->generateUrl('user_class_form'),
+            //'method' => 'POST']);
+
+       
+        $form->handleRequest($request);
+         
+            if ($form->isSubmitted() && $form->isValid()) {
+               
+             // $form->getData() holds the submitted values
+             // but, the original `$task` variable has also been updated
+             $userTask = $form->getData();
+            
+             $entityManager->persist($userTask);
+            
+                
+             // actually executes the queries (i.e. the INSERT query)
+             $entityManager->flush();
+             // ... perform some action, such as saving the task to the database
+            
+             return $this->redirectToRoute('get_user_task_list');
+         }
+        return $this->render('users/user_form.html.twig', [
+            'form' => $form,
+        ]);
+    }   
 
     // custom form create on twig and controller
 
@@ -905,6 +981,22 @@ class UserController extends AbstractController
             return $this->render('users/user_form_custom.html.twig', [
                 'form' => $form,
             ]);
+        }
+            //get user details base on user id and Delete records user details
+        #[Route('/get_user_task_delete/{id}', name: 'get_user_task_delete')]
+        public function getUserTaskDelete(ManagerRegistry $doctrine,int $id) :Response
+        {   
+            $entityManager = $doctrine->getManager();
+            $user = $entityManager->getRepository(UsersWork::class)->find($id);
+            $entityManager->remove($user);
+            $entityManager->flush();
+            if (!$user) {
+                throw $this->createNotFoundException(
+                    'No User found for id '.$id
+                );
+            }
+            
+            return $this->redirectToRoute('get_user_task_list');
         }
         /**
          * @Route("/user_event/new")

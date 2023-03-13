@@ -26,50 +26,47 @@ class BranchController extends AbstractController
     public function addBranch(Request $request,BranchRepository $branchRepository,ManagerRegistry $doctrine): Response
     {
         $entityManager = $doctrine->getManager();
+       
         $branch = new Branch();
         $form=$this->createForm(BranchType::class, $branch);
         $branch_name=$request->get('branch_name');
+        $user = $entityManager->getRepository(User::class)->find(2);
         
                 $form->handleRequest($request);
                //using orm save data save useing orm doctrain with mutltiple value add for fornt end  it store inside the data base table with id
-                // if ($form->isSubmitted() && $form->isValid()) {
-                //     $i=1;
-                //     $objects = array();
-                //    foreach($branch_name as $key=>$branchnm)
-                //    {
-                //         echo $branchnm;
-                //         echo "<br>";
-                //         $branch = new Branch();
-                //         $branch = $form->getData();
-                //         $branch->setName($branchnm);
-                //         $entityManager->persist($branch);
-                //         $objects[] = $branch;
-                        
-                //         // actually executes the queries (i.e. the INSERT query)
-                       
-                //    }
-                //    $entityManager->flush();
-                   
-                //     return $this->redirectToRoute('app_branch_list');
-                // }
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $i=1;
+                    $objects = array();
+                   foreach($branch_name as $key=>$branchnm)
+                   {
+                        $bname = new Branch();
+                        $bname->setName($branchnm);
+                        $bname->setStatus('1');
+                        //$bname->setUser($user);
+                        $user->addBranch($bname);
+                        $entityManager->persist($bname);
+                    }
+                    $entityManager->flush();
+                    return $this->redirectToRoute('app_branch_list');
+                }
 
                 //custom insert value inside the brnach and user value
-                if (isset($branch_name) and $branch_name!="") {
+                // if (isset($branch_name) and $branch_name!="") {
                 
-                    $branch=$request->get('branch');
-                    $user_id=$branch['user'];
-                    $status=$branch['status'];
+                //     $branch=$request->get('branch');
+                //     $user_id=$branch['user'];
+                //     $status=$branch['status'];
                     
-                    $response=$branchRepository->saveBranch($branch_name,$user_id,$status);
-                    if($response['status']==1){
+                //     $response=$branchRepository->saveBranch($branch_name,$user_id,$status);
+                //     if($response['status']==1){
                         
-                        return $this->redirectToRoute('app_branch_list');
-                    }else{
-                    return $this->render('branch/add_branch_form.html.twig', [
-                        'form' => $form
-                    ]);
-                    }    
-                }      
+                //         return $this->redirectToRoute('app_branch_list');
+                //     }else{
+                //     return $this->render('branch/add_branch_form.html.twig', [
+                //         'form' => $form
+                //     ]);
+                //     }    
+                // }      
         
         return $this->render('branch/add_branch_form.html.twig', [
             'form' => $form
