@@ -794,6 +794,7 @@ class UserController extends AbstractController
      public function getUserTaskList(UsersWorkRepository $doctrine,int $id=1) :Response
      {   
          //findAll custom funstion  SQL query 
+         
          $usersTask = $doctrine->findByAllUserWork();
         
          if (!$usersTask) {
@@ -915,12 +916,12 @@ class UserController extends AbstractController
         $user = $entityManager->getRepository(User::class)->find(2);
         $userTask= new UsersWork();
         $userTask->setTaskname('');
-        $userTask->getStartdate('');
-        $userTask->setEnddate('');
+        $userTask->getStartdate(date('Y-m-d'));
+        $userTask->getEnddate(date('Y-m-d'));
         $userTask->setStatus(1);
         $userTask->setUser($user);
         
-
+        //dd($userTask);
         $form = $this->createForm(UserTaskType::class, $userTask);
         //$form = $this->createForm(UserType::class, [
           //  'action' => $this->generateUrl('user_class_form'),

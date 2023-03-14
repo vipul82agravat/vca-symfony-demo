@@ -125,5 +125,35 @@ class UserDetailsController extends AbstractController
         dd($helloword,$log,$mail,$hashCall,$getRandomMessage,$pageService,$default,$pageRender);
     }
 
+    #[Route('/query_helper', name: 'query_helper')]
+    public function query_helper(UserRepository $userRepository,ManagerRegistry $doctrine): Response
+    {       
+        $createQuery=$userRepository->getMyEntityWithRelatedEntity(2);
+        dd($createQuery);
+        $entityManager = $doctrine->getManager();
+        $User = $entityManager->getRepository(User::class);
+        
+        //FindAll user
+        $allUser=$User->findAll();
+        
+        // look for a single Product by its primary key (usually "id")
+        $idBaseUser=$User->find(2);
+
+        //// look for a single User by name
+        $nameBaseUser=$User->findOneBy(['name'=>'DSFSDF']);
+
+        //// or find by name and status two conidition
+
+        $nameandStatusBaseUser=$User->findOneBy(['name'=>'DSFSDF','status'=>1]);
+
+        
+        //// look for multiple user objects matching the name, ordered by status
+        $likeBaseUser=$User->findBy(['name'=>'vipul_Dev','status'=>1]);
+
+        echo '<a href="../../user_index">Back</a>';
+        echo "<br>"; 
+        
+        dd($allUser,$idBaseUser,$nameBaseUser,$nameandStatusBaseUser,$likeBaseUser);
+    }
     
 }

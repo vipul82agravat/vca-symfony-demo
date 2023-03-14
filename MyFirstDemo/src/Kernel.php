@@ -22,4 +22,7 @@ class Kernel extends BaseKernel
             ProductCreateEvent::class => 'my_custom_event',
         ]));
     }
+    public function process(ContainerBuilder $container){
+        
+    }
 }

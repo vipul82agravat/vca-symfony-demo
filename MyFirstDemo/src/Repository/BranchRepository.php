@@ -78,24 +78,24 @@ class BranchRepository extends ServiceEntityRepository
         ->getResult()
     ;
    }
-    public function saveBranch($branch,int $userId,$status): ? array
-    {
-        
-        
-          
-       
-        $conn = $this->getEntityManager()->getConnection();
-
-        foreach($branch as $name)
+        public function saveBranch($branch,int $userId,$status): ? array
         {
-            $sql = "INSERT INTO branch (user_id, name, status)
-                    VALUES ('$userId', '$name', '$status')
-                    ";
-            $stmt = $conn->prepare($sql);
-            $resultSet = $stmt->executeQuery();
-        }
-        return ['status'=>1,'message'=>'Branch Value is store'];
+            
+            
+            
+        
+            $conn = $this->getEntityManager()->getConnection();
 
-    }
+            foreach($branch as $name)
+            {
+                $sql = "INSERT INTO branch (user_id, name, status)
+                        VALUES ('$userId', '$name', '$status')
+                        ";
+                $stmt = $conn->prepare($sql);
+                $resultSet = $stmt->executeQuery();
+            }
+            return ['status'=>1,'message'=>'Branch Value is store'];
+
+        }
     
 }

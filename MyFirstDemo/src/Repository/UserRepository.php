@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Entity\Branch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -75,6 +76,27 @@ class UserRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    public function getcreateQuery(): ?array
+    {
+        $query= $this->createQueryBuilder('u')
+            ->getQuery()
+        ;
+
+        return $query->getResult();
+        ;
+    }
+    public function getMyEntityWithRelatedEntity($parameter) 
+{
+    $query = $this->createQueryBuilder('u')
+        ->addSelect('b','task') // to make Doctrine actually use the join
+        ->leftJoin('u.branches', 'b')
+        ->leftJoin('u.usersWorks', 'task')
+        ->where('u.id = :parameter')
+        ->setParameter('parameter', $parameter)
+        ->getQuery();
+
+    return $query->getResult();
+}
     //custom quey for get the all user after the match  $id for user table  createQueryBuilder set query  getQuery query and execute query user
     public function findAllUser(): array
     {
