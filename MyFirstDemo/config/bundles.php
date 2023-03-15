@@ -11,6 +11,6 @@ return [
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true],
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
-    App\Acme\TestBundle\AcmeTestBundle::class => ['all' => true],
+    //App\Acme\TestBundle\AcmeTestBundle::class => ['all' => true],
 ];
     

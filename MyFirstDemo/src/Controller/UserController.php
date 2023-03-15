@@ -767,7 +767,7 @@ class UserController extends AbstractController
             ->getForm();
             
             return $this->render('users/user_form.html.twig', [
-                'form' => $form,
+                'form' => $form->createView(),
             ]);
     }
     //Symfony Form
@@ -929,7 +929,7 @@ class UserController extends AbstractController
 
        
         $form->handleRequest($request);
-         
+            
             if ($form->isSubmitted() && $form->isValid()) {
                
              // $form->getData() holds the submitted values
@@ -944,7 +944,9 @@ class UserController extends AbstractController
              // ... perform some action, such as saving the task to the database
             
              return $this->redirectToRoute('get_user_task_list');
-         }
+          }else if($form->isSubmitted() && !$form->isValid()){
+            var_dump($form->getErrors());exit;
+          }
         return $this->render('users/user_form.html.twig', [
             'form' => $form,
         ]);

@@ -6,6 +6,12 @@ use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="address") 
+ */
+
 class Address
 {
     #[ORM\Id]
@@ -19,6 +25,7 @@ class Address
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
+    
     public function getId(): ?int
     {
         return $this->id;

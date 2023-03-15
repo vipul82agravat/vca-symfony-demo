@@ -16,7 +16,7 @@ class UsersWork
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank]
-    //[Assert\Length(min:7,max: 12)]
+    #[Assert\Length(min:7,max: 12)]
     private ?string $taskname = null;
 
     #[ORM\Column(length: 255, nullable: true)]

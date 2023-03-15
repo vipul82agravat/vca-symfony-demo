@@ -30,16 +30,16 @@ class UserTaskType extends AbstractType
     {
         $builder
             ->add('taskname', TextType::class,['label' => 'Enter Name',])
-            ->add('startdate', DateType::class, [
-                'widget' => 'single_text',
-                'html5' => true,
-                'attr' => ['class' => 'js-datepicker'],
-            ])
-            ->add('enddate', DateType::class, [
-                'widget' => 'single_text',
-                'html5' => true,
-                'attr' => ['class' => 'js-datepicker'],
-            ])
+            // ->add('startdate', DateType::class, [
+            //     'widget' => 'single_text',
+            //     'html5' => true,
+            //     'attr' => ['class' => 'js-datepicker'],
+            // ])
+            // ->add('enddate', DateType::class, [
+            //     'widget' => 'single_text',
+            //     'html5' => true,
+            //     'attr' => ['class' => 'js-datepicker'],
+            // ])
             // ->add('enddate', DateType::class)
                        ->add('status', ChoiceType::class, [
                 'choices'  => [
@@ -104,18 +104,27 @@ class UserTaskType extends AbstractType
             $form = $event->getForm();
             $formdata=$event->getData();
             $taskname=$formdata['taskname'];  
-            $startdate=$formdata['startdate'];  
-            $enddate=$formdata['enddate'];  
+            $status=$formdata['status'];  
+            // $startdate=$formdata['startdate'];  
+            // $enddate=$formdata['enddate'];  
+           
+            if (strlen($taskname) < 2 or strlen($taskname) > 7){
 
-            if(empty($taskname) and $taskname==null){   
-                
-                $form->get('taskname')->addError(new FormError('form_error_type_already_exist'));
+                echo "error name must is greater then 2 and lesss then 7 ";
+                $form->get('taskname')->addError(new FormError('error name must is greater then 2 and lesss then 7'));
             }
-            if ($enddate < $startdate or $startdate == $enddate ) {
-               
-                $form->get('enddate')->addError(new FormError('end  date is not less then start date '));
-            } 
+            // if ($enddate < $startdate or $startdate == $enddate ) {
+            //     echo "error end date is not less then start date please check";
+            //     $form->get('enddate')->addError(new FormError('error end date is not less then start date please check '));
+            // } 
             
+            // if($status==0){
+            //     echo "error status must is select value ";
+            //     $form->get('status')->addError(new FormError('error status must is select value'));
+            // }
+           
+            // echo "noo error";
+        // dd(7);
         // ...
     }
     // form event for prposte submit data

@@ -129,7 +129,6 @@ class UserDetailsController extends AbstractController
     public function query_helper(UserRepository $userRepository,ManagerRegistry $doctrine): Response
     {       
         $createQuery=$userRepository->getMyEntityWithRelatedEntity(2);
-        dd($createQuery);
         $entityManager = $doctrine->getManager();
         $User = $entityManager->getRepository(User::class);
         
@@ -153,7 +152,8 @@ class UserDetailsController extends AbstractController
         echo '<a href="../../user_index">Back</a>';
         echo "<br>"; 
         
-        dd($allUser,$idBaseUser,$nameBaseUser,$nameandStatusBaseUser,$likeBaseUser);
+        dd($createQuery,$allUser,$idBaseUser,$nameBaseUser,$nameandStatusBaseUser,$likeBaseUser);
     }
     
 }
+    
